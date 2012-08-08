@@ -1,6 +1,5 @@
 package de.devboost.eclipse.feedback.ui;
 
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
@@ -16,9 +15,8 @@ public class FeedbackConfigurationWizardRunner {
 		shell.setSize(150, 200);
 		shell.open();
 
-		WizardDialog wizdialog = new WizardDialog(shell, new FeedbackConfigurationWizard());
-		wizdialog.setBlockOnOpen(true);
-		wizdialog.open();
+		FeedbackConfigurationWizardHelper helper = new FeedbackConfigurationWizardHelper();
+		helper.showFeedbackConfigurationWizardDialog(shell);
 		
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {

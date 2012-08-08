@@ -8,3 +8,4 @@ Bundle-Activator: de.devboost.eclipse.feedback.FeedbackPlugin
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui
+Export-Package: de.devboost.eclipse.feedback

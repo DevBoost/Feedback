@@ -10,7 +10,8 @@ import java.util.Properties;
 
 public class FeedbackConfigurationHandler {
 
-	private static final String SYSTEM_PROPERTY_USER_DIR = "user.dir";
+	private static final String CONFIG_FILE_NAME = ".devboost-open-source-tools";
+	private static final String SYSTEM_PROPERTY_USER_DIR = "user.home";
 	private static final String KEY_EMAIL = "email";
 	private static final String KEY_REGISTER_INSTALLATION = "register_installation";
 	private static final String KEY_SEND_ERROR_REPORTS = "send_error_reports";
@@ -19,7 +20,8 @@ public class FeedbackConfigurationHandler {
 	public void setConfiguration(FeedbackConfiguration configuration) {
 		saveConfiguration(configuration);
 		if (configuration.isRegisterInstallation()) {
-			// TODO register installation
+			// TODO register installation, send list of installed DevBoost
+			// plug-ins and versions
 		}
 	}
 
@@ -42,14 +44,13 @@ public class FeedbackConfigurationHandler {
 			Writer out = new FileWriter(file);
 			properties.store(out, "");
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FeedbackPlugin.logError("Could not save DevBoost feedback configuration", e);
 		}
 	}
 
 	private File getConfigFile() {
 		File userDir = new File(System.getProperty(SYSTEM_PROPERTY_USER_DIR));
-		File file = new File(userDir, ".devboost-os-tools");
+		File file = new File(userDir, CONFIG_FILE_NAME);
 		return file;
 	}
 
@@ -63,6 +64,9 @@ public class FeedbackConfigurationHandler {
 	 */
 	public FeedbackConfiguration loadConfiguration() {
 		File file = getConfigFile();
+		if (!file.exists()) {
+			return null;
+		}
 		try {
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(file));
@@ -73,8 +77,7 @@ public class FeedbackConfigurationHandler {
 			Date date = new Date(Long.parseLong(properties.getProperty(KEY_DATE)));
 			return new FeedbackConfiguration(email, register, sendErrors, date);
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FeedbackPlugin.logInfo("Could not load DevBoost feedback configuration", e);
 			return null;
 		}
 	}

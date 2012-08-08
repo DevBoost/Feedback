@@ -22,14 +22,21 @@ public class FeedbackConfigurationWizard extends Wizard {
 		String email = page.getEmailAddress();
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
-		FeedbackConfiguration configuration = new FeedbackConfiguration(email, register, sendErrors, new Date());
-		FeedbackPlugin.getDefault().getConfigurationHandler().setConfiguration(configuration );
-		return false;
+		handleResult(email, register, sendErrors);
+		return true;
 	}
-	
+
 	@Override
 	public boolean performCancel() {
-		// TODO save date of cancellation of user.home
+		handleResult("", false, false);
 		return true;
+	}
+
+	private void handleResult(String email, boolean register, boolean sendErrors) {
+		FeedbackConfiguration configuration = new FeedbackConfiguration(email, register, sendErrors, new Date());
+		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
+		if (feedbackPlugin != null) {
+			feedbackPlugin.getConfigurationHandler().setConfiguration(configuration );
+		}
 	}
 }
