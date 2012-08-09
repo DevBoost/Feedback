@@ -1,17 +1,30 @@
 package de.devboost.eclipse.feedback;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.io.Writer;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLConnection;
+import java.net.URLEncoder;
 import java.util.Date;
 import java.util.Properties;
 
+import org.osgi.framework.Bundle;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.Version;
+
 public class FeedbackConfigurationHandler {
 
+	private static final String FEEDBACK_URL = "http://www.devboost.de/eclipsefeedback";
+	
 	private static final String CONFIG_FILE_NAME = ".devboost-open-source-tools";
 	private static final String SYSTEM_PROPERTY_USER_DIR = "user.home";
+	
 	private static final String KEY_EMAIL = "email";
 	private static final String KEY_REGISTER_INSTALLATION = "register_installation";
 	private static final String KEY_SEND_ERROR_REPORTS = "send_error_reports";
@@ -20,8 +33,73 @@ public class FeedbackConfigurationHandler {
 	public void setConfiguration(FeedbackConfiguration configuration) {
 		saveConfiguration(configuration);
 		if (configuration.isRegisterInstallation()) {
-			// TODO register installation, send list of installed DevBoost
-			// plug-ins and versions
+			sendConfigurationToServer(configuration);
+		}
+	}
+
+	private void sendConfigurationToServer(FeedbackConfiguration configuration) {
+		// register installation
+		Properties properties = new Properties();
+		properties.put(KEY_EMAIL, configuration.getEmail());
+		properties.put(KEY_SEND_ERROR_REPORTS, configuration.isSendErrorReports());
+		
+		// send list of installed DevBoost plug-ins and versions
+		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
+		if (feedbackPlugin != null) {
+			BundleContext context = feedbackPlugin.getBundle().getBundleContext();
+			Bundle[] bundles = context.getBundles();
+			for (int i = 0; i < bundles.length; i++) {
+				Bundle bundle = bundles[0];
+				String symbolicName = bundle.getSymbolicName();
+				if (symbolicName == null) {
+					continue;
+				}
+				if (symbolicName.startsWith("de.devboost.") ||
+					symbolicName.startsWith("org.emftext.") ||
+					symbolicName.startsWith("org.dropsbox.") ||
+					symbolicName.startsWith("org.reuseware.") ||
+					symbolicName.startsWith("org.jamopp.") ||
+					symbolicName.startsWith("org.junitloop.")) {
+					
+					Version version = bundle.getVersion();
+					properties.put("bundle." + i + ".name", symbolicName);
+					properties.put("bundle." + i + ".version", version.getQualifier());
+				}
+			}
+		}
+		
+		ByteArrayOutputStream baos = new ByteArrayOutputStream();
+		try {
+			properties.storeToXML(baos, "");
+			sendXmlOverHttp(baos.toString());
+		} catch (IOException e) {
+			FeedbackPlugin.logError("Could not send DevBoost feedback configuration", e);
+		}
+	}
+
+	private void sendXmlOverHttp(String xmlString) throws IOException {
+		// set parameters
+        String data = "data=" + URLEncoder.encode(xmlString, "UTF-8");
+
+		URLConnection connection = new URL(FEEDBACK_URL).openConnection();
+		if (connection instanceof HttpURLConnection) {
+			HttpURLConnection httpConnection = (HttpURLConnection) connection;
+			httpConnection.setDoOutput(true);
+			httpConnection.setDoInput(true);
+			httpConnection.setInstanceFollowRedirects(false); 
+			httpConnection.setRequestMethod("POST"); 
+			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+			httpConnection.setRequestProperty("charset", "utf-8");
+			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
+			httpConnection.setUseCaches (false);
+
+			// send post request
+			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+            // write parameters
+            writer.write(data);
+            writer.flush();
+			// close connection 
+    		httpConnection.disconnect();
 		}
 	}
 
