@@ -4,14 +4,16 @@ import java.util.Date;
 
 public class FeedbackConfiguration {
 
+	private String guid;
 	private String email;
 	private boolean registerInstallation;
 	private boolean sendErrorReports;
 	private Date date;
 	
-	public FeedbackConfiguration(String email, boolean registerInstallation,
+	public FeedbackConfiguration(String guid, String email, boolean registerInstallation,
 			boolean sendErrorReports, Date date) {
 		super();
+		this.guid = guid;
 		this.email = email;
 		this.registerInstallation = registerInstallation;
 		this.sendErrorReports = sendErrorReports;
@@ -32,5 +34,9 @@ public class FeedbackConfiguration {
 
 	public Date getDate() {
 		return date;
+	}
+
+	public String getGuid() {
+		return guid;
 	}
 }

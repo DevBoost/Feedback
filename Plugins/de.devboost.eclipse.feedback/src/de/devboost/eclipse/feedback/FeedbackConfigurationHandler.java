@@ -25,6 +25,7 @@ public class FeedbackConfigurationHandler {
 	private static final String CONFIG_FILE_NAME = ".devboost-open-source-tools";
 	private static final String SYSTEM_PROPERTY_USER_DIR = "user.home";
 	
+	private static final String KEY_GUID = "guid";
 	private static final String KEY_EMAIL = "email";
 	private static final String KEY_REGISTER_INSTALLATION = "register_installation";
 	private static final String KEY_SEND_ERROR_REPORTS = "send_error_reports";
@@ -40,6 +41,7 @@ public class FeedbackConfigurationHandler {
 	private void sendConfigurationToServer(FeedbackConfiguration configuration) {
 		// register installation
 		Properties properties = new Properties();
+		properties.put(KEY_GUID, configuration.getGuid());
 		properties.put(KEY_EMAIL, configuration.getEmail());
 		properties.put(KEY_SEND_ERROR_REPORTS, configuration.isSendErrorReports());
 		
@@ -149,11 +151,12 @@ public class FeedbackConfigurationHandler {
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(file));
 
+			String guid = properties.getProperty(KEY_GUID);
 			String email = properties.getProperty(KEY_EMAIL);
 			boolean register = Boolean.parseBoolean(properties.getProperty(KEY_REGISTER_INSTALLATION));
 			boolean sendErrors = Boolean.parseBoolean(properties.getProperty(KEY_SEND_ERROR_REPORTS));
 			Date date = new Date(Long.parseLong(properties.getProperty(KEY_DATE)));
-			return new FeedbackConfiguration(email, register, sendErrors, date);
+			return new FeedbackConfiguration(guid, email, register, sendErrors, date);
 		} catch (IOException e) {
 			FeedbackPlugin.logInfo("Could not load DevBoost feedback configuration", e);
 			return null;

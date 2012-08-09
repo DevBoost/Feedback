@@ -1,6 +1,7 @@
 package de.devboost.eclipse.feedback.ui;
 
 import java.util.Date;
+import java.util.UUID;
 
 import org.eclipse.jface.wizard.Wizard;
 
@@ -33,7 +34,9 @@ public class FeedbackConfigurationWizard extends Wizard {
 	}
 
 	private void handleResult(String email, boolean register, boolean sendErrors) {
-		FeedbackConfiguration configuration = new FeedbackConfiguration(email, register, sendErrors, new Date());
+        UUID uuid = UUID.randomUUID();
+        String guid = uuid.toString();
+		FeedbackConfiguration configuration = new FeedbackConfiguration(guid, email, register, sendErrors, new Date());
 		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
 		if (feedbackPlugin != null) {
 			feedbackPlugin.getConfigurationHandler().setConfiguration(configuration );
