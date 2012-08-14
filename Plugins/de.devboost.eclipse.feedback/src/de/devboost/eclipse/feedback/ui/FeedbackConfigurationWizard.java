@@ -11,6 +11,7 @@ import de.devboost.eclipse.feedback.FeedbackPlugin;
 public class FeedbackConfigurationWizard extends Wizard {
 	
 	private FeedbackConfigurationPage page = new FeedbackConfigurationPage();
+	private CustomWizardDialog wizardDialog;
 
 	@Override
 	public void addPages() {
@@ -41,5 +42,19 @@ public class FeedbackConfigurationWizard extends Wizard {
 		if (feedbackPlugin != null) {
 			feedbackPlugin.getConfigurationHandler().setConfiguration(configuration );
 		}
+	}
+
+	public void addCancelListener(
+			ICancelListener listener) {
+		this.getWizardDialog().addCancelListener(listener);
+		
+	}
+
+	public CustomWizardDialog getWizardDialog() {
+		return wizardDialog;
+	}
+
+	public void setWizardDialog(CustomWizardDialog wizardDialog) {
+		this.wizardDialog = wizardDialog;
 	}
 }
