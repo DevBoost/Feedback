@@ -9,6 +9,7 @@ import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
+// TODO fix texts
 class FeedbackConfigurationPage extends WizardPage {
 
 	private static final String PAGE_TITLE = "DevBoost Feedback Configuration";
