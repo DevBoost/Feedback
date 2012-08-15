@@ -6,7 +6,7 @@ import org.eclipse.swt.widgets.Shell;
 public class FeedbackConfigurationWizardHelper {
 
 	public void showFeedbackConfigurationWizardDialog(Shell shell) {
-		WizardDialog wizardDialog = new WizardDialog(shell, new FeedbackConfigurationWizard());
+		WizardDialog wizardDialog = new CustomWizardDialog(shell, new FeedbackConfigurationWizard());
 		wizardDialog.setBlockOnOpen(true);
 		wizardDialog.open();
 	}
