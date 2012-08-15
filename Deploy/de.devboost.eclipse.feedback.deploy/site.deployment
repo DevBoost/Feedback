@@ -1,0 +1,8 @@
+site/snapshot = false
+
+site/vendor = DevBoost GmbH
+site/uploadPath = www.devboost.de:srv/www_eclipse_feedback/update_trunk
+site/usernameProperty = DEVBOOST_UPLOAD_USER
+site/passwordProperty = DEVBOOST_UPLOAD_PASS
+
+feature/de.devboost.eclipse.feedback/version = 1.0.0
