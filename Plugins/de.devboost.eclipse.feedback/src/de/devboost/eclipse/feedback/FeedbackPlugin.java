@@ -8,7 +8,6 @@ import org.osgi.framework.BundleContext;
 import de.devboost.eclipse.feedback.ui.FeedbackConfigurationWizardHelper;
 
 // TODO check if global log listener is possible
-// TODO write GUID to local properties file
 public class FeedbackPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID

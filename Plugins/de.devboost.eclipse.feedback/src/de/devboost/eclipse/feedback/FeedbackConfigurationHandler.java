@@ -104,11 +104,13 @@ public class FeedbackConfigurationHandler {
 	 */
 	private void saveConfiguration(FeedbackConfiguration configuration) {
 		String email = configuration.getEmail();
+		String guid = configuration.getGuid();
 		boolean register = configuration.isRegisterInstallation();
 		boolean sendErrors = configuration.isSendErrorReports();
 
 		Properties properties = new Properties();
 		properties.setProperty(KEY_EMAIL, email);
+		properties.setProperty(KEY_GUID, guid);
 		properties.setProperty(KEY_REGISTER_INSTALLATION, Boolean.toString(register));
 		properties.setProperty(KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
 		properties.setProperty(KEY_DATE, Long.toString(new Date().getTime()));
