@@ -49,8 +49,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 			ImageDescriptor imageDescriptor = new CachedImageDescriptor(
 					ImageDescriptor.createFromURL(url));
 
-			if (imageDescriptor != null
-					&& imageDescriptor.getImageData() != null) {
+			if (imageDescriptor.getImageData() != null) {
 				super.setImageDescriptor(imageDescriptor);
 			}
 		} catch (MalformedURLException e) {
