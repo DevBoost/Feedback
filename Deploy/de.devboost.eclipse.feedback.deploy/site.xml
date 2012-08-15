@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site
-      digestURL="http://www.devboost.de/eclipse-feedback/update"
-      associateSitesURL="associateSites.xml">
+<site associateSitesURL="http://www.devboost.de/eclipse-feedback/update_trunk/associateSites.xml">
    <description>
       DevBoost Open-Source Update Site.
    </description>
