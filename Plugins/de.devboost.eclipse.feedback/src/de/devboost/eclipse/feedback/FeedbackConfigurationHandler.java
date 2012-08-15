@@ -53,9 +53,11 @@ public class FeedbackConfigurationHandler {
 			Bundle bundle = bundlesSendingFeedback.get(i);
 			Version version = bundle.getVersion();
 			String symbolicName = bundle.getSymbolicName();
-			String qualifier = version.getQualifier();
+			String versionString = version.getMajor() + "." + version.getMinor() + "." + version.getMicro();
+			String qualifierString = version.getQualifier();
 			properties.put("bundle." + i + ".name", symbolicName == null ? "null" : symbolicName);
-			properties.put("bundle." + i + ".version", qualifier == null ? "null" : qualifier);
+			properties.put("bundle." + i + ".version", versionString);
+			properties.put("bundle." + i + ".qualifier", qualifierString == null ? "null" : qualifierString);
 		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -82,7 +84,7 @@ public class FeedbackConfigurationHandler {
 			httpConnection.setRequestProperty("charset", "utf-8");
 			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
 			httpConnection.setUseCaches(false);
-
+			httpConnection.setConnectTimeout(2000);
             // connect
             httpConnection.connect();
 			// send post request
@@ -102,11 +104,13 @@ public class FeedbackConfigurationHandler {
 	 */
 	private void saveConfiguration(FeedbackConfiguration configuration) {
 		String email = configuration.getEmail();
+		String guid = configuration.getGuid();
 		boolean register = configuration.isRegisterInstallation();
 		boolean sendErrors = configuration.isSendErrorReports();
 
 		Properties properties = new Properties();
 		properties.setProperty(KEY_EMAIL, email);
+		properties.setProperty(KEY_GUID, guid);
 		properties.setProperty(KEY_REGISTER_INSTALLATION, Boolean.toString(register));
 		properties.setProperty(KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
 		properties.setProperty(KEY_DATE, Long.toString(new Date().getTime()));

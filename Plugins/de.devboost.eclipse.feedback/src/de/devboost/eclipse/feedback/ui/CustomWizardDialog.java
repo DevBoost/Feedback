@@ -10,6 +10,7 @@ public class CustomWizardDialog extends WizardDialog {
 
 	public CustomWizardDialog(Shell shell, FeedbackConfigurationWizard newWizard) {
 		super(shell, newWizard);
+		setHelpAvailable(false);
 		newWizard.setWizardDialog(this);
 	}
 
