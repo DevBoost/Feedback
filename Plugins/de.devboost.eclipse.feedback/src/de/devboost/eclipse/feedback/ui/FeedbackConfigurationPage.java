@@ -80,7 +80,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 						+ "You're using Open-Source software provided by DevBoost.\n"
 						+ "We hope you find our tools useful, that we can increase your\n"
 						+ "productivity, and that you enjoy using our tools as much as\n"
-						+ "we do creating them. To help us to continuiously improve\n"
+						+ "we do creating them. To help us to continuously improve\n"
 						+ "our tools, we kindly ask you to register this installation\n"
 						+ "and to enable error feedback reporting. If you want to keep\n"
 						+ "up to date with our latest progress you can also enter\n"
