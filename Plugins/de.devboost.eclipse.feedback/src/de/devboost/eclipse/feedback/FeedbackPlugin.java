@@ -9,8 +9,6 @@ import de.devboost.eclipse.feedback.ui.FeedbackConfigurationWizardHelper;
 
 // TODO check if global log listener is possible
 // TODO write GUID to local properties file
-// TODO add company logo to wizard page
-// TODO add link to website
 public class FeedbackPlugin extends AbstractUIPlugin {
 
 	// The plug-in ID
