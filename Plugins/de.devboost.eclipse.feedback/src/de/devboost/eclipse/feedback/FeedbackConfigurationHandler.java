@@ -54,8 +54,10 @@ public class FeedbackConfigurationHandler {
 			Version version = bundle.getVersion();
 			String symbolicName = bundle.getSymbolicName();
 			String versionString = version.getMajor() + "." + version.getMinor() + "." + version.getMicro();
+			String qualifierString = version.getQualifier();
 			properties.put("bundle." + i + ".name", symbolicName == null ? "null" : symbolicName);
 			properties.put("bundle." + i + ".version", versionString);
+			properties.put("bundle." + i + ".qualifier", qualifierString == null ? "null" : qualifierString);
 		}
 		
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
