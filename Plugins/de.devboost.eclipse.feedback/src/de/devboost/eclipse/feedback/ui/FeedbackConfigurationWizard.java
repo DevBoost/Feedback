@@ -12,6 +12,11 @@ public class FeedbackConfigurationWizard extends Wizard {
 	
 	private FeedbackConfigurationPage page = new FeedbackConfigurationPage();
 	private CustomWizardDialog wizardDialog;
+	
+	public FeedbackConfigurationWizard() {
+		super();
+		setWindowTitle("Feedback configuration");
+	}
 
 	@Override
 	public void addPages() {
