@@ -82,7 +82,7 @@ public class FeedbackConfigurationHandler {
 			httpConnection.setRequestProperty("charset", "utf-8");
 			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
 			httpConnection.setUseCaches(false);
-
+			httpConnection.setConnectTimeout(2000);
             // connect
             httpConnection.connect();
 			// send post request

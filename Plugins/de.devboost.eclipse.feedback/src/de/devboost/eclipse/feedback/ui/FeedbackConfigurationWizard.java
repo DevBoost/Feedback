@@ -22,6 +22,9 @@ public class FeedbackConfigurationWizard extends Wizard {
 	@Override
 	public boolean performFinish() {
 		String email = page.getEmailAddress();
+		if (!page.isSendEmailSelected()) {
+			email = "";
+		}
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
 		handleResult(email, register, sendErrors);
@@ -35,10 +38,11 @@ public class FeedbackConfigurationWizard extends Wizard {
 	}
 
 	private void handleResult(String email, boolean register, boolean sendErrors) {
-        UUID uuid = UUID.randomUUID();
+		UUID uuid = UUID.randomUUID();
         String guid = uuid.toString();
 		FeedbackConfiguration configuration = new FeedbackConfiguration(guid, email, register, sendErrors, new Date());
 		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
+		
 		if (feedbackPlugin != null) {
 			feedbackPlugin.getConfigurationHandler().setConfiguration(configuration );
 		}
