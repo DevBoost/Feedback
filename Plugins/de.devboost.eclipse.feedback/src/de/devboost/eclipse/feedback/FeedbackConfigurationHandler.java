@@ -1,16 +1,10 @@
 package de.devboost.eclipse.feedback;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
-import java.net.URLEncoder;
 import java.util.Date;
 import java.util.List;
 import java.util.Properties;
@@ -20,8 +14,6 @@ import org.osgi.framework.Version;
 
 public class FeedbackConfigurationHandler {
 
-	private static final String FEEDBACK_URL = "http://www.devboost.de/eclipse-feedback/";
-	
 	private static final String CONFIG_FILE_NAME = ".devboost-open-source-tools";
 	private static final String SYSTEM_PROPERTY_USER_DIR = "user.home";
 	
@@ -41,6 +33,7 @@ public class FeedbackConfigurationHandler {
 	private void sendConfigurationToServer(FeedbackConfiguration configuration) {
 		// register installation
 		Properties properties = new Properties();
+		properties.put(FeedbackClient.KEY_FEEDBACK_TYPE, "registration");
 		properties.put(KEY_GUID, configuration.getGuid());
 		properties.put(KEY_EMAIL, configuration.getEmail());
 		properties.put(KEY_SEND_ERROR_REPORTS, Boolean.toString(configuration.isSendErrorReports()));
@@ -60,43 +53,7 @@ public class FeedbackConfigurationHandler {
 			properties.put("bundle." + i + ".qualifier", qualifierString == null ? "null" : qualifierString);
 		}
 		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		try {
-			properties.storeToXML(baos, "");
-			sendXmlOverHttp(baos.toString());
-		} catch (IOException e) {
-			FeedbackPlugin.logError("Could not send DevBoost feedback configuration", e);
-		}
-	}
-
-	protected void sendXmlOverHttp(String xmlString) throws IOException {
-		// set parameters
-        String data = "data=" + URLEncoder.encode(xmlString, "UTF-8");
-
-		URLConnection connection = new URL(FEEDBACK_URL).openConnection();
-		if (connection instanceof HttpURLConnection) {
-			HttpURLConnection httpConnection = (HttpURLConnection) connection;
-			httpConnection.setDoOutput(true);
-			httpConnection.setDoInput(true);
-			httpConnection.setInstanceFollowRedirects(false); 
-			httpConnection.setRequestMethod("POST"); 
-			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
-			httpConnection.setRequestProperty("charset", "utf-8");
-			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
-			httpConnection.setUseCaches(false);
-			httpConnection.setConnectTimeout(2000);
-            // connect
-            httpConnection.connect();
-			// send post request
-			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            // write parameters
-            writer.write(data);
-            writer.flush();
-            
-            httpConnection.getResponseCode();
-			// close connection
-    		httpConnection.disconnect();
-		}
+		new FeedbackClient().sendPropertiesToServer(properties);
 	}
 
 	/**
