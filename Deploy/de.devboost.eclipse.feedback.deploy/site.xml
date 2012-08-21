@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<site
-      digestURL="http://www.devboost.de/eclipse-feedback/update"
-      associateSitesURL="associateSites.xml">
+<site associateSitesURL="http://www.devboost.de/eclipse-feedback/update_trunk/associateSites.xml">
    <description>
       DevBoost Open-Source Update Site.
    </description>
    <feature url="features/de.devboost.eclipse.feedback_0.0.0.v0.jar" id="de.devboost.eclipse.feedback" version="0.0.0.v0">
       <category name="Feedback"/>
    </feature>
-   <category-def name="Feedback" label="DevBoost Open-Source Feedback"">
+   <category-def name="Feedback" label="DevBoost Open-Source Feedback">
       <description></description>
    </category-def>
 </site>
