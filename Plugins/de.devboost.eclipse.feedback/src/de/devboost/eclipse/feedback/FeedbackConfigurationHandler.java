@@ -6,11 +6,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
 import java.util.Date;
-import java.util.List;
 import java.util.Properties;
-
-import org.osgi.framework.Bundle;
-import org.osgi.framework.Version;
 
 public class FeedbackConfigurationHandler {
 
@@ -38,20 +34,7 @@ public class FeedbackConfigurationHandler {
 		properties.put(KEY_EMAIL, configuration.getEmail());
 		properties.put(KEY_SEND_ERROR_REPORTS, Boolean.toString(configuration.isSendErrorReports()));
 		
-		// send list of installed DevBoost plug-ins and versions
-		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
-		List<Bundle> bundlesSendingFeedback = new FeedbackPluginFilter().getBundlesSendingFeedback(feedbackPlugin);
-		
-		for (int i = 0; i < bundlesSendingFeedback.size(); i++) {
-			Bundle bundle = bundlesSendingFeedback.get(i);
-			Version version = bundle.getVersion();
-			String symbolicName = bundle.getSymbolicName();
-			String versionString = version.getMajor() + "." + version.getMinor() + "." + version.getMicro();
-			String qualifierString = version.getQualifier();
-			properties.put("bundle." + i + ".name", symbolicName == null ? "null" : symbolicName);
-			properties.put("bundle." + i + ".version", versionString);
-			properties.put("bundle." + i + ".qualifier", qualifierString == null ? "null" : qualifierString);
-		}
+		new PropertyCreator().addInstalledBundles(properties);
 		
 		new FeedbackClient().sendPropertiesToServer(properties);
 	}
@@ -86,7 +69,6 @@ public class FeedbackConfigurationHandler {
 		File file = new File(userDir, CONFIG_FILE_NAME);
 		return file;
 	}
-
 
 	/**
 	 * Reads the configuration from a properties file in 'user.home'.
