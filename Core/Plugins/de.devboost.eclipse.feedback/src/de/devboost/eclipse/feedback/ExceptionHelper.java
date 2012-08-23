@@ -15,8 +15,6 @@ package de.devboost.eclipse.feedback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
-import java.util.LinkedHashSet;
-import java.util.Set;
 
 public class ExceptionHelper {
 
@@ -24,18 +22,5 @@ public class ExceptionHelper {
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		exception.printStackTrace(new PrintStream(baos));
 		return baos.toString();
-	}
-
-	public String getStackTraceIncludingCauses(Throwable exception) {
-		StringBuilder stackTrace = new StringBuilder();
-		
-		Set<Throwable> handledExceptions = new LinkedHashSet<Throwable>();
-		Throwable next = exception;
-		while (next != null && !handledExceptions.contains(next)) {
-			stackTrace.append(getStackTrace(next));
-			handledExceptions.add(next);
-			next = next.getCause();
-		}
-		return stackTrace.toString();
 	}
 }

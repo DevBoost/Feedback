@@ -45,7 +45,7 @@ class FeedbackLogListener implements LogListener {
 		}
 		// filter log entries for DevBoost plug-ins
 		String symbolicName = bundle.getSymbolicName();
-		String stackTrace = new ExceptionHelper().getStackTraceIncludingCauses(entry.getException());
+		String stackTrace = new ExceptionHelper().getStackTrace(entry.getException());
 		if (!new FeedbackPluginFilter().containsFeedbackPluginPrefix(stackTrace)) {
 			return;
 		}
