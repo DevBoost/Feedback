@@ -22,6 +22,14 @@ class FeedbackLogListener implements LogListener {
 		if (bundle == null) {
 			return;
 		}
+		// check whether error reporting is enabled
+		FeedbackConfiguration configuration = new FeedbackConfigurationHandler().loadConfiguration();
+		if (configuration == null) {
+			return;
+		}
+		if (!configuration.isSendErrorReports()) {
+			return;
+		}
 		// filter log entries for DevBoost plug-ins
 		String symbolicName = bundle.getSymbolicName();
 		if (!new FeedbackPluginFilter().isFeedbackPlugin(symbolicName)) {
