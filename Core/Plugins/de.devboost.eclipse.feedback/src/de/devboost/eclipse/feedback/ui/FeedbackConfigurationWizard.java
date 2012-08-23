@@ -6,7 +6,7 @@ import java.util.UUID;
 import org.eclipse.jface.wizard.Wizard;
 
 import de.devboost.eclipse.feedback.FeedbackConfiguration;
-import de.devboost.eclipse.feedback.FeedbackPlugin;
+import de.devboost.eclipse.feedback.FeedbackConfigurationHandler;
 
 public class FeedbackConfigurationWizard extends Wizard {
 	
@@ -46,17 +46,11 @@ public class FeedbackConfigurationWizard extends Wizard {
 		UUID uuid = UUID.randomUUID();
         String guid = uuid.toString();
 		FeedbackConfiguration configuration = new FeedbackConfiguration(guid, email, register, sendErrors, new Date());
-		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
-		
-		if (feedbackPlugin != null) {
-			feedbackPlugin.getConfigurationHandler().setConfiguration(configuration );
-		}
+		new FeedbackConfigurationHandler().setConfiguration(configuration);
 	}
 
-	public void addCancelListener(
-			ICancelListener listener) {
+	public void addCancelListener(ICancelListener listener) {
 		this.getWizardDialog().addCancelListener(listener);
-		
 	}
 
 	public CustomWizardDialog getWizardDialog() {

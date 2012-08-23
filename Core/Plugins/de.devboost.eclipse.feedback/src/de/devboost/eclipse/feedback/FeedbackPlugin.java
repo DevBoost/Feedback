@@ -41,10 +41,6 @@ public class FeedbackPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	public FeedbackConfigurationHandler getConfigurationHandler() {
-		return new FeedbackConfigurationHandler();
-	}
-
 	/**
 	 * Checks whether the current user has configured his feedback preferences
 	 * yet. If not, a respective dialog is shown.
@@ -52,7 +48,7 @@ public class FeedbackPlugin extends AbstractUIPlugin {
 	public void configureFeedbackIfRequired() {
 		synchronized (FeedbackPlugin.class) {
 			// check whether feedback was configured before
-			FeedbackConfiguration configuration = getConfigurationHandler().loadConfiguration();
+			FeedbackConfiguration configuration = new FeedbackConfigurationHandler().loadConfiguration();
 			if (configuration != null) {
 				return;
 			}
