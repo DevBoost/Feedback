@@ -6,7 +6,7 @@ import java.util.List;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-public class FeedbackPluginFilter {
+class FeedbackPluginFilter {
 
 	public List<Bundle> getBundlesSendingFeedback(FeedbackPlugin feedbackPlugin) {
 		List<Bundle> bundlesSendingFeedback = new ArrayList<Bundle>();
@@ -27,7 +27,10 @@ public class FeedbackPluginFilter {
 		return bundlesSendingFeedback;
 	}
 
-	private boolean isFeedbackPlugin(String symbolicName) {
+	public boolean isFeedbackPlugin(String symbolicName) {
+		if (symbolicName == null) {
+			return false;
+		}
 		return symbolicName.startsWith("de.devboost.") ||
 			symbolicName.startsWith("org.emftext.") ||
 			symbolicName.startsWith("org.dropsbox.") ||
