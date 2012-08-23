@@ -13,8 +13,6 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
-import java.io.ByteArrayOutputStream;
-import java.io.PrintStream;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Properties;
@@ -67,12 +65,11 @@ class PropertyCreator {
 		}
 		handledExceptions.add(exception);
 		
-		ByteArrayOutputStream baos = new ByteArrayOutputStream();
-		exception.printStackTrace(new PrintStream(baos));
+		String stackTrace = new ExceptionHelper().getStackTrace(exception);
 
 		properties.put(key + "." + KEY_EXCEPTION_TYPE, exception.getClass().getName());
 		properties.put(key + "." + KEY_EXCEPTION_MESSAGE, exception.getMessage());
-		properties.put(key + "." + KEY_EXCEPTION_STACKTRACE, baos.toString());
+		properties.put(key + "." + KEY_EXCEPTION_STACKTRACE, stackTrace);
 		
 		addException(properties, key + "." + KEY_EXCEPTION_CAUSE, exception.getCause(), handledExceptions);
 	}

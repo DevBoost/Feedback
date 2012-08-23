@@ -20,6 +20,17 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 class FeedbackPluginFilter {
+	
+	private final static String[] DEVBOOST_PLUGIN_PREFIXES = new String[] {
+			"de.devboost.",
+			"org.emftext.",
+			"org.dropsbox.",
+			"org.reuseware.",
+			"org.jamopp.",
+			"org.junitloop.",
+			"org.hibernate-dsl.",
+			"org.buildboost.",
+		};
 
 	public List<Bundle> getBundlesSendingFeedback(FeedbackPlugin feedbackPlugin) {
 		List<Bundle> bundlesSendingFeedback = new ArrayList<Bundle>();
@@ -44,11 +55,23 @@ class FeedbackPluginFilter {
 		if (symbolicName == null) {
 			return false;
 		}
-		return symbolicName.startsWith("de.devboost.") ||
-			symbolicName.startsWith("org.emftext.") ||
-			symbolicName.startsWith("org.dropsbox.") ||
-			symbolicName.startsWith("org.reuseware.") ||
-			symbolicName.startsWith("org.jamopp.") ||
-			symbolicName.startsWith("org.junitloop.");
+		for (String prefix : DEVBOOST_PLUGIN_PREFIXES) {
+			if (symbolicName.startsWith(prefix)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean containsFeedbackPluginPrefix(String text) {
+		if (text == null) {
+			return false;
+		}
+		for (String prefix : DEVBOOST_PLUGIN_PREFIXES) {
+			if (text.contains(prefix)) {
+				return true;
+			}
+		}
+		return false;
 	}
 }
