@@ -19,6 +19,9 @@ import java.io.PrintStream;
 public class ExceptionHelper {
 
 	public String getStackTrace(Throwable exception) {
+		if (exception == null) {
+			return "";
+		}
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		exception.printStackTrace(new PrintStream(baos));
 		return baos.toString();
