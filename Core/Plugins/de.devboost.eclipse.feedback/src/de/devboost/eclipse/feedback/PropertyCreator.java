@@ -67,8 +67,10 @@ class PropertyCreator {
 		
 		String stackTrace = new ExceptionHelper().getStackTrace(exception);
 
-		properties.put(key + "." + KEY_EXCEPTION_TYPE, exception.getClass().getName());
-		properties.put(key + "." + KEY_EXCEPTION_MESSAGE, exception.getMessage());
+		String exceptionClassName = exception.getClass().getName();
+		String message = exception.getMessage();
+		properties.put(key + "." + KEY_EXCEPTION_TYPE, exceptionClassName == null ? "null" : exceptionClassName);
+		properties.put(key + "." + KEY_EXCEPTION_MESSAGE, message == null ? "null" : exceptionClassName);
 		properties.put(key + "." + KEY_EXCEPTION_STACKTRACE, stackTrace);
 		
 		addException(properties, key + "." + KEY_EXCEPTION_CAUSE, exception.getCause(), handledExceptions);
