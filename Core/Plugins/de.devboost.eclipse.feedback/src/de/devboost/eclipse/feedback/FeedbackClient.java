@@ -33,7 +33,7 @@ class FeedbackClient {
 			properties.storeToXML(baos, "");
 			sendXmlOverHttp(baos.toString());
 		} catch (IOException e) {
-			FeedbackPlugin.logError("Could not send DevBoost feedback configuration", e);
+			FeedbackPlugin.logError("Could not send DevBoost feedback", e);
 		}
 	}
 
