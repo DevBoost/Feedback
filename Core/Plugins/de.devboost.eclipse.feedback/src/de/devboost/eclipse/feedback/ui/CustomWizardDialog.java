@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Shell;
 
 public class CustomWizardDialog extends WizardDialog {
 
-	public CustomWizardDialog(Shell shell, FeedbackConfigurationWizard newWizard) {
+	public CustomWizardDialog(Shell shell, AbstractConfigurationWizard newWizard) {
 		super(shell, newWizard);
 		setHelpAvailable(false);
 		newWizard.setWizardDialog(this);

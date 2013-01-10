@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -16,26 +16,30 @@ package de.devboost.eclipse.feedback;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.runtime.Plugin;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
-class FeedbackPluginFilter {
+/**
+ * A {@link PluginFilter} can be used to check whether a running Eclipse instance
+ * contains plug-ins matching a given set of prefixes.
+ */
+public class PluginFilter {
 	
-	private final static String[] DEVBOOST_PLUGIN_PREFIXES = new String[] {
-			"de.devboost.",
-			"org.emftext.",
-			"org.dropsbox.",
-			"org.reuseware.",
-			"org.jamopp.",
-			"org.junitloop.",
-			"org.hibernate-dsl.",
-			"org.buildboost.",
-		};
+	private String[] pluginPrefixes;
+	
+	/**
+	 * Creates a plug-in filter that accepts plug-ins with the given prefixes.
+	 */
+	public PluginFilter(String[] pluginPrefixes) {
+		super();
+		this.pluginPrefixes = pluginPrefixes;
+	}
 
-	public List<Bundle> getBundlesSendingFeedback(FeedbackPlugin feedbackPlugin) {
-		List<Bundle> bundlesSendingFeedback = new ArrayList<Bundle>();
-		if (feedbackPlugin != null) {
-			BundleContext context = feedbackPlugin.getBundle().getBundleContext();
+	public List<Bundle> getMatchingBundles(Plugin contextPlugin) {
+		List<Bundle> matchingBundles = new ArrayList<Bundle>();
+		if (contextPlugin != null) {
+			BundleContext context = contextPlugin.getBundle().getBundleContext();
 			Bundle[] bundles = context.getBundles();
 			for (int i = 0; i < bundles.length; i++) {
 				Bundle bundle = bundles[i];
@@ -43,19 +47,19 @@ class FeedbackPluginFilter {
 				if (symbolicName == null) {
 					continue;
 				}
-				if (isFeedbackPlugin(symbolicName)) {
-					bundlesSendingFeedback.add(bundle);
+				if (isMatchingPlugin(symbolicName)) {
+					matchingBundles.add(bundle);
 				}
 			}
 		}
-		return bundlesSendingFeedback;
+		return matchingBundles;
 	}
 
-	public boolean isFeedbackPlugin(String symbolicName) {
+	public boolean isMatchingPlugin(String symbolicName) {
 		if (symbolicName == null) {
 			return false;
 		}
-		for (String prefix : DEVBOOST_PLUGIN_PREFIXES) {
+		for (String prefix : pluginPrefixes) {
 			if (symbolicName.startsWith(prefix)) {
 				return true;
 			}
@@ -63,11 +67,11 @@ class FeedbackPluginFilter {
 		return false;
 	}
 
-	public boolean containsFeedbackPluginPrefix(String text) {
+	public boolean containsPluginPrefix(String text) {
 		if (text == null) {
 			return false;
 		}
-		for (String prefix : DEVBOOST_PLUGIN_PREFIXES) {
+		for (String prefix : pluginPrefixes) {
 			if (text.contains(prefix)) {
 				return true;
 			}

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -35,10 +35,17 @@ class PropertyCreator {
 	private static final String KEY_EXCEPTION_MESSAGE = "message";
 	private static final String KEY_EXCEPTION_STACKTRACE = "stacktrace";
 
+	private String[] pluginPrefixes;
+	
+	public PropertyCreator(String[] pluginPrefixes) {
+		super();
+		this.pluginPrefixes = pluginPrefixes;
+	}
+
 	public void addInstalledBundles(Properties properties) {
 		// send list of installed DevBoost plug-ins and versions
 		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
-		List<Bundle> bundlesSendingFeedback = new FeedbackPluginFilter().getBundlesSendingFeedback(feedbackPlugin);
+		List<Bundle> bundlesSendingFeedback = new PluginFilter(pluginPrefixes).getMatchingBundles(feedbackPlugin);
 		
 		for (int i = 0; i < bundlesSendingFeedback.size(); i++) {
 			Bundle bundle = bundlesSendingFeedback.get(i);

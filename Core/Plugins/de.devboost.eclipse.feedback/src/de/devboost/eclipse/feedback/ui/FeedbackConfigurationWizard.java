@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -13,22 +13,20 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
-import java.util.Date;
-import java.util.UUID;
+import de.devboost.eclipse.feedback.FeedbackConfigurationLogic;
+import de.devboost.eclipse.feedback.IConfigurationHandler;
 
-import org.eclipse.jface.wizard.Wizard;
-
-import de.devboost.eclipse.feedback.FeedbackConfiguration;
-import de.devboost.eclipse.feedback.FeedbackConfigurationHandler;
-
-public class FeedbackConfigurationWizard extends Wizard {
+public class FeedbackConfigurationWizard extends AbstractConfigurationWizard {
 	
 	private FeedbackConfigurationPage page = new FeedbackConfigurationPage();
-	private CustomWizardDialog wizardDialog;
+	private FeedbackConfigurationLogic logic;
 	
-	public FeedbackConfigurationWizard() {
+	public FeedbackConfigurationWizard(IConfigurationHandler configurationHandler) {
 		super();
 		setWindowTitle("Feedback configuration");
+		
+		// initialize logic
+		logic = new FeedbackConfigurationLogic(configurationHandler);
 	}
 
 	@Override
@@ -45,32 +43,17 @@ public class FeedbackConfigurationWizard extends Wizard {
 		}
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
-		handleResult(email, register, sendErrors);
+		logic.handleResult(email, register, sendErrors);
 		return true;
 	}
 
 	@Override
 	public boolean performCancel() {
-		handleResult("", false, false);
+		logic.handleResult("", false, false);
 		return true;
 	}
 
-	private void handleResult(String email, boolean register, boolean sendErrors) {
-		UUID uuid = UUID.randomUUID();
-        String guid = uuid.toString();
-		FeedbackConfiguration configuration = new FeedbackConfiguration(guid, email, register, sendErrors, new Date());
-		new FeedbackConfigurationHandler().setConfiguration(configuration);
-	}
-
 	public void addCancelListener(ICancelListener listener) {
-		this.getWizardDialog().addCancelListener(listener);
-	}
-
-	public CustomWizardDialog getWizardDialog() {
-		return wizardDialog;
-	}
-
-	public void setWizardDialog(CustomWizardDialog wizardDialog) {
-		this.wizardDialog = wizardDialog;
+		getWizardDialog().addCancelListener(listener);
 	}
 }

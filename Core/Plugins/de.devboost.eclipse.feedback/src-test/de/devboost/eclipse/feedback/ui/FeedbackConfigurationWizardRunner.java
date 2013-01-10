@@ -16,6 +16,10 @@ package de.devboost.eclipse.feedback.ui;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
 
+import de.devboost.eclipse.feedback.ConfigurationHandler;
+import de.devboost.eclipse.feedback.IConfigurationHandler;
+import de.devboost.eclipse.feedback.IOpenSourcePlugins;
+
 public class FeedbackConfigurationWizardRunner {
 
 	private Display display;
@@ -28,8 +32,11 @@ public class FeedbackConfigurationWizardRunner {
 		shell.setSize(150, 200);
 		shell.open();
 
-		FeedbackConfigurationWizardHelper helper = new FeedbackConfigurationWizardHelper();
-		helper.showFeedbackConfigurationWizardDialog(shell);
+		String[] pluginPrefixes = IOpenSourcePlugins.DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES;
+		IConfigurationHandler configurationHandler = new ConfigurationHandler(pluginPrefixes);
+		AbstractConfigurationWizard wizard = new FeedbackConfigurationWizard(configurationHandler);
+		IConfigurationWizardOpener helper = new ConfigurationWizardOpener(wizard);
+		helper.showConfigurationWizardDialog(shell);
 		
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -21,7 +21,11 @@ import java.io.Writer;
 import java.util.Date;
 import java.util.Properties;
 
-public class FeedbackConfigurationHandler {
+/**
+ * A {@link ConfigurationHandler} can be used to load and store configurations.
+ * It can also send configuration data to the DevBoost server.
+ */
+public class ConfigurationHandler implements IConfigurationHandler {
 
 	private static final String CONFIG_FILE_NAME = ".devboost-open-source-tools";
 	private static final String SYSTEM_PROPERTY_USER_DIR = "user.home";
@@ -31,7 +35,18 @@ public class FeedbackConfigurationHandler {
 	private static final String KEY_REGISTER_INSTALLATION = "register_installation";
 	private static final String KEY_SEND_ERROR_REPORTS = "send_error_reports";
 	private static final String KEY_DATE = "date";
+	
+	private String[] pluginPrefixes;
+	
+	public ConfigurationHandler(String[] pluginPrefixes) {
+		super();
+		this.pluginPrefixes = pluginPrefixes;
+	}
 
+	/* (non-Javadoc)
+	 * @see de.devboost.eclipse.feedback.IConfigurationHandler#setConfiguration(de.devboost.eclipse.feedback.FeedbackConfiguration)
+	 */
+	@Override
 	public void setConfiguration(FeedbackConfiguration configuration) {
 		saveConfiguration(configuration);
 		if (configuration.isRegisterInstallation()) {
@@ -47,7 +62,7 @@ public class FeedbackConfigurationHandler {
 		properties.put(KEY_EMAIL, configuration.getEmail());
 		properties.put(KEY_SEND_ERROR_REPORTS, Boolean.toString(configuration.isSendErrorReports()));
 		
-		new PropertyCreator().addInstalledBundles(properties);
+		new PropertyCreator(pluginPrefixes).addInstalledBundles(properties);
 		
 		new FeedbackClient().sendPropertiesToServer(properties);
 	}
@@ -83,13 +98,10 @@ public class FeedbackConfigurationHandler {
 		return file;
 	}
 
-	/**
-	 * Reads the configuration from a properties file in 'user.home'.
-	 * 
-	 * @param email
-	 * @param register
-	 * @param sendErrors
+	/* (non-Javadoc)
+	 * @see de.devboost.eclipse.feedback.IConfigurationHandler#loadConfiguration()
 	 */
+	@Override
 	public FeedbackConfiguration loadConfiguration() {
 		File file = getConfigFile();
 		if (!file.exists()) {

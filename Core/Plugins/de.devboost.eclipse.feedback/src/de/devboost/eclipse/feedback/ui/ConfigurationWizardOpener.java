@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -16,10 +16,21 @@ package de.devboost.eclipse.feedback.ui;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 
-public class FeedbackConfigurationWizardHelper {
+public class ConfigurationWizardOpener implements IConfigurationWizardOpener {
 
-	public void showFeedbackConfigurationWizardDialog(Shell shell) {
-		WizardDialog wizardDialog = new CustomWizardDialog(shell, new FeedbackConfigurationWizard());
+	private AbstractConfigurationWizard wizard;
+	
+	public ConfigurationWizardOpener(AbstractConfigurationWizard wizard) {
+		super();
+		this.wizard = wizard;
+	}
+
+	/* (non-Javadoc)
+	 * @see de.devboost.eclipse.feedback.ui.ConfigurationWizardOpener#showConfigurationWizardDialog(org.eclipse.swt.widgets.Shell)
+	 */
+	@Override
+	public void showConfigurationWizardDialog(Shell shell) {
+		WizardDialog wizardDialog = new CustomWizardDialog(shell, wizard);
 		wizardDialog.setBlockOnOpen(true);
 		wizardDialog.open();
 	}

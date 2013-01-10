@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -14,11 +14,9 @@
 package de.devboost.eclipse.feedback;
 
 import org.eclipse.core.runtime.IStatus;
-import org.eclipse.swt.widgets.Display;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
 import org.osgi.framework.BundleContext;
-
-import de.devboost.eclipse.feedback.ui.FeedbackConfigurationWizardHelper;
 
 public class FeedbackPlugin extends AbstractUIPlugin {
 
@@ -54,30 +52,6 @@ public class FeedbackPlugin extends AbstractUIPlugin {
 		return plugin;
 	}
 
-	/**
-	 * Checks whether the current user has configured his feedback preferences
-	 * yet. If not, a respective dialog is shown.
-	 */
-	public void configureFeedbackIfRequired() {
-		synchronized (FeedbackPlugin.class) {
-			// check whether feedback was configured before
-			FeedbackConfiguration configuration = new FeedbackConfigurationHandler().loadConfiguration();
-			if (configuration != null) {
-				return;
-			}
-			// otherwise show configuration wizard
-			final Display display = Display.getDefault();
-			display.asyncExec(new Runnable() {
-				
-				@Override
-				public void run() {
-					FeedbackConfigurationWizardHelper helper = new FeedbackConfigurationWizardHelper();
-					helper.showFeedbackConfigurationWizardDialog(display.getActiveShell());
-				}
-			});
-		}
-	}
-
 	// TODO move the log methods to some shared plug-in
 	public static void logInfo(String message, Throwable cause) {
 		log(IStatus.INFO, message, cause);
@@ -96,12 +70,12 @@ public class FeedbackPlugin extends AbstractUIPlugin {
 	 * 
 	 * @return the status object describing the error
 	 */
-	protected static org.eclipse.core.runtime.IStatus log(int type, String message, Throwable throwable) {
-		org.eclipse.core.runtime.IStatus status;
+	protected static IStatus log(int type, String message, Throwable throwable) {
+		IStatus status;
 		if (throwable != null) {
-			status = new org.eclipse.core.runtime.Status(type, FeedbackPlugin.PLUGIN_ID, 0, message, throwable);
+			status = new Status(type, FeedbackPlugin.PLUGIN_ID, 0, message, throwable);
 		} else {
-			status = new org.eclipse.core.runtime.Status(type, FeedbackPlugin.PLUGIN_ID, message);
+			status = new Status(type, FeedbackPlugin.PLUGIN_ID, message);
 		}
 		final FeedbackPlugin pluginInstance = FeedbackPlugin.getDefault();
 		if (pluginInstance == null) {

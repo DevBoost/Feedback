@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -26,6 +26,15 @@ class FeedbackLogListener implements LogListener {
 	private static final String KEY_TIME = "time";
 	private static final String KEY_MESSAGE = "message";
 
+	private String[] pluginPrefixes;
+	private IConfigurationHandler configurationHandler;
+	
+	public FeedbackLogListener(String[] pluginPrefixes, IConfigurationHandler configurationHandler) {
+		super();
+		this.pluginPrefixes = pluginPrefixes;
+		this.configurationHandler = configurationHandler;
+	}
+
 	@Override
 	public void logged(LogEntry entry) {
 		if (entry == null) {
@@ -36,7 +45,7 @@ class FeedbackLogListener implements LogListener {
 			return;
 		}
 		// check whether error reporting is enabled
-		FeedbackConfiguration configuration = new FeedbackConfigurationHandler().loadConfiguration();
+		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
 		if (configuration == null) {
 			return;
 		}
@@ -52,7 +61,7 @@ class FeedbackLogListener implements LogListener {
 		if ("de.devboost.eclipse.feedback".equals(symbolicName)) {
 			return;
 		}
-		if (!new FeedbackPluginFilter().containsFeedbackPluginPrefix(stackTrace)) {
+		if (!new PluginFilter(pluginPrefixes).containsPluginPrefix(stackTrace)) {
 			return;
 		}
 		if (entry.getLevel() != LogService.LOG_ERROR) {
@@ -71,7 +80,7 @@ class FeedbackLogListener implements LogListener {
 		properties.put(KEY_TIME, Long.toString(time));
 		properties.put(KEY_MESSAGE, message);
 		
-		PropertyCreator propertyCreator = new PropertyCreator();
+		PropertyCreator propertyCreator = new PropertyCreator(pluginPrefixes);
 		propertyCreator.addInstalledBundles(properties);
 		propertyCreator.addException(properties, exception);
 		
