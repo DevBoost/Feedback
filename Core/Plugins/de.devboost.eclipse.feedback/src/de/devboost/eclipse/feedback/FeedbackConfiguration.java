@@ -14,6 +14,7 @@
 package de.devboost.eclipse.feedback;
 
 import java.util.Date;
+import java.util.Properties;
 
 public class FeedbackConfiguration {
 
@@ -22,15 +23,17 @@ public class FeedbackConfiguration {
 	private boolean registerInstallation;
 	private boolean sendErrorReports;
 	private Date date;
+	private Properties properties;
 	
 	public FeedbackConfiguration(String guid, String email, boolean registerInstallation,
-			boolean sendErrorReports, Date date) {
+			boolean sendErrorReports, Date date, Properties properties) {
 		super();
 		this.guid = guid;
 		this.email = email;
 		this.registerInstallation = registerInstallation;
 		this.sendErrorReports = sendErrorReports;
 		this.date = date;
+		this.properties = properties;
 	}
 
 	public String getEmail() {
@@ -51,5 +54,9 @@ public class FeedbackConfiguration {
 
 	public String getGuid() {
 		return guid;
+	}
+
+	public Properties getProperties() {
+		return properties;
 	}
 }

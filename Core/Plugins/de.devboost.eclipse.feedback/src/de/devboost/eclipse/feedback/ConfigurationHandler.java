@@ -47,8 +47,8 @@ public class ConfigurationHandler implements IConfigurationHandler {
 	 * @see de.devboost.eclipse.feedback.IConfigurationHandler#setConfiguration(de.devboost.eclipse.feedback.FeedbackConfiguration)
 	 */
 	@Override
-	public void setConfiguration(FeedbackConfiguration configuration) {
-		saveConfiguration(configuration);
+	public void saveConfiguration(FeedbackConfiguration configuration) {
+		doSaveConfiguration(configuration);
 		if (configuration.isRegisterInstallation()) {
 			sendConfigurationToServer(configuration);
 		}
@@ -70,7 +70,7 @@ public class ConfigurationHandler implements IConfigurationHandler {
 	/**
 	 * Saves the given configuration to a properties file in 'user.home'.
 	 */
-	private void saveConfiguration(FeedbackConfiguration configuration) {
+	private void doSaveConfiguration(FeedbackConfiguration configuration) {
 		String email = configuration.getEmail();
 		String guid = configuration.getGuid();
 		boolean register = configuration.isRegisterInstallation();
@@ -116,7 +116,7 @@ public class ConfigurationHandler implements IConfigurationHandler {
 			boolean register = Boolean.parseBoolean(properties.getProperty(KEY_REGISTER_INSTALLATION));
 			boolean sendErrors = Boolean.parseBoolean(properties.getProperty(KEY_SEND_ERROR_REPORTS));
 			Date date = new Date(Long.parseLong(properties.getProperty(KEY_DATE)));
-			return new FeedbackConfiguration(guid, email, register, sendErrors, date);
+			return new FeedbackConfiguration(guid, email, register, sendErrors, date, properties);
 		} catch (IOException e) {
 			FeedbackPlugin.logInfo("Could not load DevBoost feedback configuration", e);
 			return null;

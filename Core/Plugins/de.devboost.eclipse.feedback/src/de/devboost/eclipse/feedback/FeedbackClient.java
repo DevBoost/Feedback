@@ -15,10 +15,6 @@ package de.devboost.eclipse.feedback;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.OutputStreamWriter;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLConnection;
 import java.net.URLEncoder;
 import java.util.Properties;
 
@@ -40,30 +36,9 @@ class FeedbackClient {
 	protected void sendXmlOverHttp(String xmlString) throws IOException {
 		// set parameters
         String data = "data=" + URLEncoder.encode(xmlString, "UTF-8");
-
-		URLConnection connection = new URL(FEEDBACK_URL).openConnection();
-		if (connection instanceof HttpURLConnection) {
-			HttpURLConnection httpConnection = (HttpURLConnection) connection;
-			httpConnection.setDoOutput(true);
-			httpConnection.setDoInput(true);
-			httpConnection.setInstanceFollowRedirects(false); 
-			httpConnection.setRequestMethod("POST"); 
-			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
-			httpConnection.setRequestProperty("charset", "utf-8");
-			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
-			httpConnection.setUseCaches(false);
-			httpConnection.setConnectTimeout(2000);
-            // connect
-            httpConnection.connect();
-			// send post request
-			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            // write parameters
-            writer.write(data);
-            writer.flush();
-            
-            httpConnection.getResponseCode();
-			// close connection
-    		httpConnection.disconnect();
-		}
+		String url = FEEDBACK_URL;
+		String method = "POST";
+		// send request
+		new HttpClient().sendOverHttp(url, method, data);
 	}
 }

@@ -15,7 +15,7 @@ package de.devboost.eclipse.feedback;
 
 public interface IConfigurationHandler {
 
-	public abstract void setConfiguration(FeedbackConfiguration configuration);
+	public abstract void saveConfiguration(FeedbackConfiguration configuration);
 
 	/**
 	 * Reads the configuration from a properties file in 'user.home'.
