@@ -43,13 +43,13 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard {
 		}
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
-		logic.handleResult(email, register, sendErrors);
+		logic.handleResult(email, register, sendErrors, null);
 		return true;
 	}
 
 	@Override
 	public boolean performCancel() {
-		logic.handleResult("", false, false);
+		logic.handleResult("", false, false, null);
 		return true;
 	}
 

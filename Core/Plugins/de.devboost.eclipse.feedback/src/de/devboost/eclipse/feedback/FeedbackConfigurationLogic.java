@@ -30,8 +30,7 @@ public class FeedbackConfigurationLogic {
 		return configurationHandler;
 	}
 
-	public void handleResult(String email, boolean register, boolean sendErrors) {
-        // TODO add license properties
+	public void handleResult(String email, boolean register, boolean sendErrors, String username) {
 		Properties properties = new Properties();
 		createNewConfiguration(email, register, sendErrors, properties);
 	}
