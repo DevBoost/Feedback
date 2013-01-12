@@ -19,7 +19,6 @@ import java.net.URL;
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
-import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.events.SelectionListener;
 import org.eclipse.swt.graphics.Image;
@@ -30,9 +29,7 @@ import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
-import org.eclipse.swt.widgets.Link;
 import org.eclipse.swt.widgets.Text;
-import org.eclipse.ui.PlatformUI;
 
 import de.devboost.eclipse.feedback.FeedbackPlugin;
 import de.devboost.eclipse.feedback.util.CachedImageDescriptor;
@@ -43,7 +40,6 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 	private static final String DEVBOOST_LOGO = "http://www.devboost.de/eclipse-feedback/logo/";
 	private static final String PAGE_TITLE = "DevBoost Feedback Configuration";
 	private static final String PAGE_TITLE_2 = "DevBoost Open-Source Software Feedback Configuration";
-	private static final String DEFAULT_EMAIL_ADDRESS = "yourname@yourcompany.com";
 
 	private Text emailText;
 	private Button registerInstallationButton;
@@ -110,36 +106,11 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		createImagePanel(panel);
 
 		createRegistrationComposite(panel);
-		createDevBoostHyperlink(panel);
+		new UIFragmentHelper().createDevBoostHyperlink(panel);
 
 		setControl(panel);
 		FeedbackConfigurationWizard feedbackConfigurationWizard = (FeedbackConfigurationWizard) getWizard();
 		feedbackConfigurationWizard.addCancelListener(this);
-	}
-
-	private void createDevBoostHyperlink(Composite panel) {
-		Link link = new Link(panel, SWT.NONE);
-		link.setText("<a href=\"http://www.devboost.de\">www.devboost.de</a>");
-
-		GridData gd = new GridData(SWT.RIGHT, SWT.TOP, true, true);
-		gd.horizontalSpan = 2;
-		gd.heightHint = 20;
-		link.setLayoutData(gd);
-
-		link.addSelectionListener(new SelectionAdapter() {
-			@Override
-			public void widgetSelected(SelectionEvent e) {
-				System.out.println("You have selected: " + e.text);
-				try {
-					// Open default external browser
-					PlatformUI.getWorkbench().getBrowserSupport()
-							.getExternalBrowser().openURL(new URL(e.text));
-				} catch (Exception ex) {
-					// do nothing
-				}
-			}
-		});
-
 	}
 
 	private void createRegistrationComposite(Composite panel) {
@@ -228,7 +199,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		});
 
 		emailText = new Text(panel, SWT.BORDER);
-		emailText.setText(DEFAULT_EMAIL_ADDRESS);
+		emailText.setText(UIConstants.DEFAULT_EMAIL_ADDRESS);
 		emailText.setFocus();
 		gd = new GridData();
 		gd.horizontalAlignment = SWT.RIGHT;

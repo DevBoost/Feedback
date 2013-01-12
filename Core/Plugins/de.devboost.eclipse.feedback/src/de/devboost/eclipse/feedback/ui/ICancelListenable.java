@@ -13,17 +13,8 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
+public interface ICancelListenable {
 
-import de.devboost.eclipse.feedback.ConfigurationHandler;
-import de.devboost.eclipse.feedback.IConfigurationHandler;
+	public void addCancelListener(ICancelListener newListener);
 
-public class FeedbackConfigurationWizardRunner extends AbstractWizardRunner {
-
-	@Override
-	public IConfigurationWizardOpener getWizardOpener(String[] pluginPrefixes) {
-		IConfigurationHandler configurationHandler = new ConfigurationHandler(pluginPrefixes);
-		AbstractConfigurationWizard wizard = new FeedbackConfigurationWizard(configurationHandler);
-		IConfigurationWizardOpener helper = new ConfigurationWizardOpener(wizard);
-		return helper;
-	}
 }

@@ -10,4 +10,5 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.ui,
  org.eclipse.osgi.services
 Export-Package: de.devboost.eclipse.feedback,
- de.devboost.eclipse.feedback.ui
+ de.devboost.eclipse.feedback.ui,
+ de.devboost.eclipse.feedback.util

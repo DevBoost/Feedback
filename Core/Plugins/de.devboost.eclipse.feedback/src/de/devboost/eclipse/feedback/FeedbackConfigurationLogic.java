@@ -17,30 +17,26 @@ import java.util.Date;
 import java.util.Properties;
 import java.util.UUID;
 
-public class FeedbackConfigurationLogic {
+public class FeedbackConfigurationLogic extends AbstractConfigurationLogic {
 
-	private IConfigurationHandler configurationHandler;
-	
 	public FeedbackConfigurationLogic(IConfigurationHandler configurationHandler) {
-		super();
-		this.configurationHandler = configurationHandler;
+		super(configurationHandler);
 	}
 	
-	public IConfigurationHandler getConfigurationHandler() {
-		return configurationHandler;
-	}
-
-	public void handleResult(String email, boolean register, boolean sendErrors, String username) {
+	public void handleResult(String email, boolean register, boolean sendErrors) {
 		Properties properties = new Properties();
 		createNewConfiguration(email, register, sendErrors, properties);
 	}
 
-	protected void createNewConfiguration(String email, boolean register, 
+	private void createNewConfiguration(
+			String email, 
+			boolean register, 
 			boolean sendErrors,
 			Properties properties) {
+		
 		UUID uuid = UUID.randomUUID();
         String guid = uuid.toString();
 		FeedbackConfiguration configuration = new FeedbackConfiguration(guid, email, register, sendErrors, new Date(), properties);
-		configurationHandler.saveConfiguration(configuration);
+		getConfigurationHandler().saveConfiguration(configuration);
 	}
 }

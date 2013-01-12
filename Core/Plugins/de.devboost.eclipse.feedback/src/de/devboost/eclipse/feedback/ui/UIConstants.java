@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012
+ * Copyright (c) 2012-2013
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -13,17 +13,7 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
+public interface UIConstants {
 
-import de.devboost.eclipse.feedback.ConfigurationHandler;
-import de.devboost.eclipse.feedback.IConfigurationHandler;
-
-public class FeedbackConfigurationWizardRunner extends AbstractWizardRunner {
-
-	@Override
-	public IConfigurationWizardOpener getWizardOpener(String[] pluginPrefixes) {
-		IConfigurationHandler configurationHandler = new ConfigurationHandler(pluginPrefixes);
-		AbstractConfigurationWizard wizard = new FeedbackConfigurationWizard(configurationHandler);
-		IConfigurationWizardOpener helper = new ConfigurationWizardOpener(wizard);
-		return helper;
-	}
+	public String DEFAULT_EMAIL_ADDRESS = "yourname@yourcompany.com";
 }

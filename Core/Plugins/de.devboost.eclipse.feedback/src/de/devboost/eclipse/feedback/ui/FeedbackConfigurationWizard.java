@@ -16,7 +16,8 @@ package de.devboost.eclipse.feedback.ui;
 import de.devboost.eclipse.feedback.FeedbackConfigurationLogic;
 import de.devboost.eclipse.feedback.IConfigurationHandler;
 
-public class FeedbackConfigurationWizard extends AbstractConfigurationWizard {
+public class FeedbackConfigurationWizard extends AbstractConfigurationWizard 
+	implements ICancelListenable {
 	
 	private FeedbackConfigurationPage page = new FeedbackConfigurationPage();
 	private FeedbackConfigurationLogic logic;
@@ -43,13 +44,13 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard {
 		}
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
-		logic.handleResult(email, register, sendErrors, null);
+		logic.handleResult(email, register, sendErrors);
 		return true;
 	}
 
 	@Override
 	public boolean performCancel() {
-		logic.handleResult("", false, false, null);
+		logic.handleResult("", false, false);
 		return true;
 	}
 
