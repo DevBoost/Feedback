@@ -34,7 +34,6 @@ import org.eclipse.swt.widgets.Text;
 import de.devboost.eclipse.feedback.FeedbackPlugin;
 import de.devboost.eclipse.feedback.util.CachedImageDescriptor;
 
-// TODO fix texts
 class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 
 	private static final String DEVBOOST_LOGO = "http://www.devboost.de/eclipse-feedback/logo/";
@@ -65,8 +64,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 				super.setImageDescriptor(imageDescriptor);
 			}
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			FeedbackPlugin.logError("Can't load DevBoost logo: " + e.getMessage(), e);
 		}
 
 		ImageData happyData = new ImageData(
@@ -232,5 +230,4 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 	public void cancelEnter() {
 		imageLabel.setImage(sadImage);
 	}
-
 }
