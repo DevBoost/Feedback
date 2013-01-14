@@ -27,15 +27,6 @@ import java.util.Properties;
  */
 public class ConfigurationHandler implements IConfigurationHandler {
 
-	private static final String CONFIG_FILE_NAME = ".devboost-open-source-tools";
-	private static final String SYSTEM_PROPERTY_USER_DIR = "user.home";
-	
-	private static final String KEY_GUID = "guid";
-	private static final String KEY_EMAIL = "email";
-	private static final String KEY_REGISTER_INSTALLATION = "register_installation";
-	private static final String KEY_SEND_ERROR_REPORTS = "send_error_reports";
-	private static final String KEY_DATE = "date";
-	
 	private String[] pluginPrefixes;
 	
 	public ConfigurationHandler(String[] pluginPrefixes) {
@@ -43,24 +34,14 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		this.pluginPrefixes = pluginPrefixes;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.devboost.eclipse.feedback.IConfigurationHandler#setConfiguration(de.devboost.eclipse.feedback.FeedbackConfiguration)
-	 */
 	@Override
-	public void saveConfiguration(FeedbackConfiguration configuration) {
-		doSaveConfiguration(configuration);
-		if (configuration.isRegisterInstallation()) {
-			sendConfigurationToServer(configuration);
-		}
-	}
-
-	private void sendConfigurationToServer(FeedbackConfiguration configuration) {
-		// register installation
+	public void sendConfigurationToServer(FeedbackConfiguration configuration) {
+		// register installation. we do not send all properties!
 		Properties properties = new Properties();
 		properties.put(FeedbackClient.KEY_FEEDBACK_TYPE, "registration");
-		properties.put(KEY_GUID, configuration.getGuid());
-		properties.put(KEY_EMAIL, configuration.getEmail());
-		properties.put(KEY_SEND_ERROR_REPORTS, Boolean.toString(configuration.isSendErrorReports()));
+		properties.put(IConfigurationConstants.KEY_GUID, configuration.getStringProperty(IConfigurationConstants.KEY_GUID));
+		properties.put(IConfigurationConstants.KEY_EMAIL, configuration.getStringProperty(IConfigurationConstants.KEY_EMAIL));
+		properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_ERROR_REPORTS)));
 		
 		new PropertyCreator(pluginPrefixes).addInstalledBundles(properties);
 		
@@ -70,31 +51,24 @@ public class ConfigurationHandler implements IConfigurationHandler {
 	/**
 	 * Saves the given configuration to a properties file in 'user.home'.
 	 */
-	private void doSaveConfiguration(FeedbackConfiguration configuration) {
-		String email = configuration.getEmail();
-		String guid = configuration.getGuid();
-		boolean register = configuration.isRegisterInstallation();
-		boolean sendErrors = configuration.isSendErrorReports();
-
-		Properties properties = new Properties();
-		properties.setProperty(KEY_EMAIL, email);
-		properties.setProperty(KEY_GUID, guid);
-		properties.setProperty(KEY_REGISTER_INSTALLATION, Boolean.toString(register));
-		properties.setProperty(KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
-		properties.setProperty(KEY_DATE, Long.toString(new Date().getTime()));
+	@Override
+	public void saveConfiguration(FeedbackConfiguration configuration) {
+		Properties properties = configuration.getProperties();
+		// refresh save date
+		properties.setProperty(IConfigurationConstants.KEY_DATE, Long.toString(new Date().getTime()));
 		
 		File file = getConfigFile();
 		try {
-			Writer out = new FileWriter(file);
-			properties.store(out, "");
+			Writer writer = new FileWriter(file);
+			properties.store(writer, "");
 		} catch (IOException e) {
-			FeedbackPlugin.logError("Could not save DevBoost feedback configuration", e);
+			FeedbackPlugin.logError("Could not save DevBoost configuration", e);
 		}
 	}
 
 	private File getConfigFile() {
-		File userDir = new File(System.getProperty(SYSTEM_PROPERTY_USER_DIR));
-		File file = new File(userDir, CONFIG_FILE_NAME);
+		File userDir = new File(System.getProperty(IConfigurationConstants.SYSTEM_PROPERTY_USER_DIR));
+		File file = new File(userDir, IConfigurationConstants.CONFIG_FILE_NAME);
 		return file;
 	}
 
@@ -110,13 +84,7 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		try {
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(file));
-
-			String guid = properties.getProperty(KEY_GUID);
-			String email = properties.getProperty(KEY_EMAIL);
-			boolean register = Boolean.parseBoolean(properties.getProperty(KEY_REGISTER_INSTALLATION));
-			boolean sendErrors = Boolean.parseBoolean(properties.getProperty(KEY_SEND_ERROR_REPORTS));
-			Date date = new Date(Long.parseLong(properties.getProperty(KEY_DATE)));
-			return new FeedbackConfiguration(guid, email, register, sendErrors, date, properties);
+			return new FeedbackConfiguration(properties);
 		} catch (IOException e) {
 			FeedbackPlugin.logInfo("Could not load DevBoost feedback configuration", e);
 			return null;

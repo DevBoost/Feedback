@@ -18,42 +18,33 @@ import java.util.Properties;
 
 public class FeedbackConfiguration {
 
-	private String guid;
-	private String email;
-	private boolean registerInstallation;
-	private boolean sendErrorReports;
-	private Date date;
 	private Properties properties;
 	
-	public FeedbackConfiguration(String guid, String email, boolean registerInstallation,
-			boolean sendErrorReports, Date date, Properties properties) {
+	public FeedbackConfiguration(Properties properties) {
 		super();
-		this.guid = guid;
-		this.email = email;
-		this.registerInstallation = registerInstallation;
-		this.sendErrorReports = sendErrorReports;
-		this.date = date;
 		this.properties = properties;
 	}
+	
+	public Boolean getBooleanProperty(String key) {
+		String value = properties.getProperty(key);
+		if (value == null) {
+			return null;
+		}
+		return Boolean.parseBoolean(value);
+	};
 
-	public String getEmail() {
-		return email;
+	public String getStringProperty(String key) {
+		String value = properties.getProperty(key);
+		return value;
 	}
 
-	public boolean isRegisterInstallation() {
-		return registerInstallation;
-	}
-
-	public boolean isSendErrorReports() {
-		return sendErrorReports;
-	}
-
-	public Date getDate() {
+	public Date getDateProperty(String key) {
+		String value = properties.getProperty(key);
+		if (value == null) {
+			return null;
+		}
+		Date date = new Date(Long.parseLong(value));
 		return date;
-	}
-
-	public String getGuid() {
-		return guid;
 	}
 
 	public Properties getProperties() {

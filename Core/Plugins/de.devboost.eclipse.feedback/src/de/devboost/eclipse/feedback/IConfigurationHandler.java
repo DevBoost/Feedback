@@ -26,4 +26,5 @@ public interface IConfigurationHandler {
 	 */
 	public abstract FeedbackConfiguration loadConfiguration();
 
+	public abstract void sendConfigurationToServer(FeedbackConfiguration configuration);
 }

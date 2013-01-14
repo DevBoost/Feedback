@@ -13,7 +13,6 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
-import java.util.Date;
 import java.util.Properties;
 import java.util.UUID;
 
@@ -36,7 +35,18 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic {
 		
 		UUID uuid = UUID.randomUUID();
         String guid = uuid.toString();
-		FeedbackConfiguration configuration = new FeedbackConfiguration(guid, email, register, sendErrors, new Date(), properties);
-		getConfigurationHandler().saveConfiguration(configuration);
+        
+        properties.put(IConfigurationConstants.KEY_EMAIL, email);
+        properties.put(IConfigurationConstants.KEY_REGISTER_INSTALLATION, Boolean.toString(register));
+        properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
+        properties.put(IConfigurationConstants.KEY_GUID, guid);
+        
+		FeedbackConfiguration configuration = new FeedbackConfiguration(properties);
+		IConfigurationHandler configurationHandler = getConfigurationHandler();
+		configurationHandler.saveConfiguration(configuration);
+		Boolean isRegisterInstallation = configuration.getBooleanProperty(IConfigurationConstants.KEY_REGISTER_INSTALLATION);
+		if (isRegisterInstallation != null && isRegisterInstallation) {
+			configurationHandler.sendConfigurationToServer(configuration);
+		}
 	}
 }

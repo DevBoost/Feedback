@@ -49,9 +49,12 @@ class FeedbackLogListener implements LogListener {
 		if (configuration == null) {
 			return;
 		}
-		if (!configuration.isSendErrorReports()) {
+		Boolean isSendErrorReports = configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_ERROR_REPORTS);
+		// option may not be set (null)
+		if (isSendErrorReports == null || isSendErrorReports == false) {
 			return;
 		}
+		
 		// filter log entries for DevBoost plug-ins
 		String symbolicName = bundle.getSymbolicName();
 		String stackTrace = new ExceptionHelper().getStackTrace(entry.getException());
