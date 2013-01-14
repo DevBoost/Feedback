@@ -11,7 +11,7 @@
  *   DevBoost GmbH - Berlin, Germany
  *      - initial API and implementation
  ******************************************************************************/
-package de.devboost.eclipse.feedback;
+package de.devboost.eclipse.feedback.util;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,8 +25,7 @@ import java.net.URLConnection;
 
 public class HttpClient {
 
-	// TODO use enumeration for method parameter
-	public String sendOverHttp(String url, String method, String data)
+	public String sendOverHttp(String url, HttpMethod method, String data)
 			throws IOException, MalformedURLException, ProtocolException {
 		URLConnection connection = new URL(url).openConnection();
 		if (connection instanceof HttpURLConnection) {
@@ -34,7 +33,7 @@ public class HttpClient {
 			httpConnection.setDoOutput(true);
 			httpConnection.setDoInput(true);
 			httpConnection.setInstanceFollowRedirects(false); 
-			httpConnection.setRequestMethod(method); 
+			httpConnection.setRequestMethod(method.name()); 
 			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
 			httpConnection.setRequestProperty("charset", "utf-8");
 			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));

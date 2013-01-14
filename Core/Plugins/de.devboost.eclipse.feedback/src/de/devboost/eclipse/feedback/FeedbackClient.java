@@ -18,6 +18,9 @@ import java.io.IOException;
 import java.net.URLEncoder;
 import java.util.Properties;
 
+import de.devboost.eclipse.feedback.util.HttpClient;
+import de.devboost.eclipse.feedback.util.HttpMethod;
+
 class FeedbackClient {
 
 	private static final String FEEDBACK_URL = "http://www.devboost.de/eclipse-feedback/";
@@ -37,7 +40,8 @@ class FeedbackClient {
 		// set parameters
         String data = "data=" + URLEncoder.encode(xmlString, "UTF-8");
 		String url = FEEDBACK_URL;
-		String method = "POST";
+		HttpMethod method = HttpMethod.POST;
+		
 		// send request
 		new HttpClient().sendOverHttp(url, method, data);
 	}
