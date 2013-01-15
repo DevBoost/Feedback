@@ -16,13 +16,13 @@ package de.devboost.eclipse.feedback;
 public interface IOpenSourcePlugins {
 
 	public String[] DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES = new String[] {
-		"de.devboost.",
-		"org.emftext.",
-		"org.dropsbox.",
-		"org.reuseware.",
-		"org.jamopp.",
-		"org.junitloop.",
-		"org.hibernate-dsl.",
-		"org.buildboost.",
+		"de.devboost",
+		"org.emftext",
+		"org.dropsbox",
+		"org.reuseware",
+		"org.jamopp",
+		"org.junitloop",
+		"org.hibernate-dsl",
+		"org.buildboost",
 	};
 }

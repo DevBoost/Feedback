@@ -36,6 +36,16 @@ public class PluginFilter {
 		this.pluginPrefixes = pluginPrefixes;
 	}
 
+	public List<String> getInstalledProductBundleNames(Plugin plugin) {
+		List<Bundle> matchingBundles = getMatchingBundles(plugin);
+		List<String> productIDs = new ArrayList<String>();
+		for (Bundle bundle : matchingBundles) {
+			String bundleName = bundle.getSymbolicName();
+			productIDs.add(bundleName);
+		}
+		return productIDs;
+	}
+
 	public List<Bundle> getMatchingBundles(Plugin contextPlugin) {
 		List<Bundle> matchingBundles = new ArrayList<Bundle>();
 		if (contextPlugin != null) {
@@ -60,7 +70,10 @@ public class PluginFilter {
 			return false;
 		}
 		for (String prefix : pluginPrefixes) {
-			if (symbolicName.startsWith(prefix)) {
+			if (symbolicName.equals(prefix)) {
+				return true;
+			}
+			if (symbolicName.startsWith(prefix + ".")) {
 				return true;
 			}
 		}
@@ -72,7 +85,7 @@ public class PluginFilter {
 			return false;
 		}
 		for (String prefix : pluginPrefixes) {
-			if (text.contains(prefix)) {
+			if (text.contains(prefix + ".")) {
 				return true;
 			}
 		}
