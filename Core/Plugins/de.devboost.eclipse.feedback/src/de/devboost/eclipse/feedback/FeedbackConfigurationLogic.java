@@ -16,15 +16,39 @@ package de.devboost.eclipse.feedback;
 import java.util.Properties;
 import java.util.UUID;
 
-public class FeedbackConfigurationLogic extends AbstractConfigurationLogic {
+public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<FeedbackConfigurationData> {
 
 	public FeedbackConfigurationLogic(IConfigurationHandler configurationHandler) {
-		super(configurationHandler);
+		super(configurationHandler, getFeedbackConfigurationData(configurationHandler));
 	}
 	
-	public void handleResult(String email, boolean register, boolean sendErrors) {
+	private static FeedbackConfigurationData getFeedbackConfigurationData(
+			IConfigurationHandler configurationHandler) {
+		
+		FeedbackConfigurationData data = new FeedbackConfigurationData();
+
+		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
+		if (configuration == null) {
+			// no configuration found
+			return data;
+		}
+		
+		String email = configuration.getStringProperty(IConfigurationConstants.KEY_EMAIL);
+		Boolean register = configuration.getBooleanProperty(IConfigurationConstants.KEY_REGISTER_INSTALLATION);
+		Boolean sendEmail = configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_EMAIL);
+		Boolean sendErrors = configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_ERROR_REPORTS);
+		
+		data.setEmail(email);
+		data.setRegister(register);
+		data.setSendEmail(sendEmail);
+		data.setSendErrors(sendErrors);
+		return data;
+	}
+
+	public void performFinish() {
+		FeedbackConfigurationData data = getData();
 		Properties properties = new Properties();
-		createNewConfiguration(email, register, sendErrors, properties);
+		createNewConfiguration(data.getEmail(), data.isRegister(), data.isSendErrors(), properties);
 	}
 
 	private void createNewConfiguration(
@@ -48,5 +72,10 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic {
 		if (isRegisterInstallation != null && isRegisterInstallation) {
 			configurationHandler.sendConfigurationToServer(configuration);
 		}
+	}
+
+	@Override
+	public void performCancel() {
+		// do nothing
 	}
 }

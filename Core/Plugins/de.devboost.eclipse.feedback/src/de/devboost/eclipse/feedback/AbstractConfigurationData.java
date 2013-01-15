@@ -13,15 +13,8 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
-public interface IConfigurationConstants {
+public abstract class AbstractConfigurationData {
 
-	public String CONFIG_FILE_NAME = ".devboost-open-source-tools";
-	public String SYSTEM_PROPERTY_USER_DIR = "user.home";
-	
-	public String KEY_GUID = "guid";
-	public String KEY_EMAIL = "email";
-	public String KEY_REGISTER_INSTALLATION = "register_installation";
-	public String KEY_SEND_ERROR_REPORTS = "send_error_reports";
-	public String KEY_DATE = "date";
-	public String KEY_SEND_EMAIL = "send_email";
+	public abstract String getEmail();
+	public abstract void setEmail(String email);
 }

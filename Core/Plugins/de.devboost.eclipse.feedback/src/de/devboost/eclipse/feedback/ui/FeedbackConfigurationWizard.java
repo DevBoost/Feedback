@@ -39,18 +39,25 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard
 	@Override
 	public boolean performFinish() {
 		String email = page.getEmailAddress();
-		if (!page.isSendEmailSelected()) {
-			email = "";
-		}
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
-		logic.handleResult(email, register, sendErrors);
+		
+		logic.getData().setSendEmail(page.isSendEmailSelected());
+		// TODO make sure not to send the email address is sending
+		// email was not selected
+		// code: if (!page.isSendEmailSelected()) email = "";
+
+		logic.getData().setEmail(email);
+		logic.getData().setRegister(register);
+		logic.getData().setSendErrors(sendErrors);
+		
+		logic.performFinish();
 		return true;
 	}
 
 	@Override
 	public boolean performCancel() {
-		logic.handleResult("", false, false);
+		logic.performCancel();
 		return true;
 	}
 

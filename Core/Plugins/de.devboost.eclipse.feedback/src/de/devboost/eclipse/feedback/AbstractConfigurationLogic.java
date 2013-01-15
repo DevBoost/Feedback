@@ -13,17 +13,30 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
-
-public abstract class AbstractConfigurationLogic {
+public abstract class AbstractConfigurationLogic<DataType extends AbstractConfigurationData> {
 
 	private IConfigurationHandler configurationHandler;
+	private DataType data;
 	
-	public AbstractConfigurationLogic(IConfigurationHandler configurationHandler) {
+	public AbstractConfigurationLogic(IConfigurationHandler configurationHandler,
+		DataType data) {
 		super();
 		this.configurationHandler = configurationHandler;
+		this.data = data;
 	}
 	
 	public IConfigurationHandler getConfigurationHandler() {
 		return configurationHandler;
+	}
+	
+	public abstract void performFinish();
+	public abstract void performCancel();
+
+	public boolean isEmailModifiable() {
+		return getData().getEmail() == null;
+	}
+
+	public DataType getData() {
+		return data;
 	}
 }
