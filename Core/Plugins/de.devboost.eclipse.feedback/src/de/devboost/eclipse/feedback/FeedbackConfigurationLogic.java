@@ -47,27 +47,45 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 
 	public void performFinish() {
 		FeedbackConfigurationData data = getData();
-		Properties properties = new Properties();
-		createNewConfiguration(data.getEmail(), data.isRegister(), data.isSendErrors(), properties);
+		// make sure not to send the email address is sending
+		// email was not selected
+		String email = data.getEmail();
+		Boolean sendEmail = data.isSendEmail();
+		if (sendEmail == null || sendEmail == false) {
+			email = "";
+		}
+
+		updateConfiguration(email, data.isRegister(), data.isSendErrors());
 	}
 
-	private void createNewConfiguration(
+	private void updateConfiguration(
 			String email, 
-			boolean register, 
-			boolean sendErrors,
-			Properties properties) {
+			Boolean register, 
+			Boolean sendErrors) {
+
+		IConfigurationHandler configurationHandler = getConfigurationHandler();
+		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
+		if (configuration == null) {
+			// no configuration found. create a new one.
+			configuration = new FeedbackConfiguration();
+		}
 		
+
 		UUID uuid = UUID.randomUUID();
         String guid = uuid.toString();
         
+		Properties properties = configuration.getProperties();
         properties.put(IConfigurationConstants.KEY_EMAIL, email);
-        properties.put(IConfigurationConstants.KEY_REGISTER_INSTALLATION, Boolean.toString(register));
-        properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
+        if (register != null) {
+            properties.put(IConfigurationConstants.KEY_REGISTER_INSTALLATION, Boolean.toString(register));
+		}
+        if (sendErrors != null) {
+            properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
+		}
         properties.put(IConfigurationConstants.KEY_GUID, guid);
         
-		FeedbackConfiguration configuration = new FeedbackConfiguration(properties);
-		IConfigurationHandler configurationHandler = getConfigurationHandler();
 		configurationHandler.saveConfiguration(configuration);
+		
 		Boolean isRegisterInstallation = configuration.getBooleanProperty(IConfigurationConstants.KEY_REGISTER_INSTALLATION);
 		if (isRegisterInstallation != null && isRegisterInstallation) {
 			configurationHandler.sendConfigurationToServer(configuration);

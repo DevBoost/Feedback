@@ -84,7 +84,9 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		try {
 			Properties properties = new Properties();
 			properties.load(new FileInputStream(file));
-			return new FeedbackConfiguration(properties);
+			FeedbackConfiguration configuration = new FeedbackConfiguration();
+			configuration.getProperties().putAll(properties);
+			return configuration;
 		} catch (IOException e) {
 			FeedbackPlugin.logInfo("Could not load DevBoost feedback configuration", e);
 			return null;

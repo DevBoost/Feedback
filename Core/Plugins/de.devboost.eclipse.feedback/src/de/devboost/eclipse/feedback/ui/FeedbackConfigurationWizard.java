@@ -43,10 +43,6 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard
 		boolean sendErrors = page.isSendErrorReportsSelected();
 		
 		logic.getData().setSendEmail(page.isSendEmailSelected());
-		// TODO make sure not to send the email address is sending
-		// email was not selected
-		// code: if (!page.isSendEmailSelected()) email = "";
-
 		logic.getData().setEmail(email);
 		logic.getData().setRegister(register);
 		logic.getData().setSendErrors(sendErrors);

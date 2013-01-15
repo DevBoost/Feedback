@@ -20,9 +20,9 @@ public class FeedbackConfiguration {
 
 	private Properties properties;
 	
-	public FeedbackConfiguration(Properties properties) {
+	public FeedbackConfiguration() {
 		super();
-		this.properties = properties;
+		this.properties = new Properties();
 	}
 	
 	public Boolean getBooleanProperty(String key) {
