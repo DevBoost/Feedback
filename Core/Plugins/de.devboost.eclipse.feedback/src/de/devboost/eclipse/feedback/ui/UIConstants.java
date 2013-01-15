@@ -16,4 +16,5 @@ package de.devboost.eclipse.feedback.ui;
 public interface UIConstants {
 
 	public String DEFAULT_EMAIL_ADDRESS = "yourname@yourcompany.com";
+	public String DEFAULT_USERNAME = "your name";
 }
