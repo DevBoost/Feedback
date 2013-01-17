@@ -35,6 +35,20 @@ public class StartupListener extends AbstractStartupListener {
 	}
 
 	@Override
+	protected boolean isShowingDialogRequired() {
+		IConfigurationHandler configurationHandler = getConfigurationHandler();
+		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
+		// TODO this is wrong. we must show the Open Source Feedback dialog if
+		// it was either completed before or cancelled. Checking the configuration
+		// for null is not working, because there might be a configuration
+		// create by commercial product configuration dialogs
+		if (configuration != null) {
+			return false;
+		}
+		return true;
+	}
+
+	@Override
 	protected IConfigurationHandler createConfigurationHandler() {
 		return new ConfigurationHandler(pluginPrefixes);
 	}
