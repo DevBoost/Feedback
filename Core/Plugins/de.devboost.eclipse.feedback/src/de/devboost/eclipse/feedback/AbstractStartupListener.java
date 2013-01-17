@@ -13,8 +13,6 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
-import java.util.List;
-
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
@@ -44,11 +42,6 @@ public abstract class AbstractStartupListener implements IStartup {
 		}
 		
 		registerLogListener(plugin, pluginPrefixes);
-		
-		List<Bundle> bundlesSendingFeedback = new PluginFilter(pluginPrefixes).getMatchingBundles(plugin);
-		if (bundlesSendingFeedback.isEmpty()) {
-			return;
-		}
 		
 		configureFeedbackIfRequired();
 	}

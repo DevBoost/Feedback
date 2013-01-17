@@ -24,4 +24,5 @@ public interface IConfigurationConstants {
 	public String KEY_SEND_ERROR_REPORTS = "send_error_reports";
 	public String KEY_DATE = "date";
 	public String KEY_SEND_EMAIL = "send_email";
+	public String KEY_SHOWED_OPEN_SOURCE_DIALOG = "showed_open_source_dialog";
 }
