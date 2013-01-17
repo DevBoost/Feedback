@@ -25,6 +25,7 @@ import de.devboost.eclipse.feedback.ui.IConfigurationWizardOpener;
 
 public abstract class AbstractStartupListener implements IStartup {
 	
+	private final static Class<AbstractStartupListener> lock = AbstractStartupListener.class;
 	private IConfigurationHandler configurationHandler;
 
 	public AbstractStartupListener() {
@@ -51,25 +52,32 @@ public abstract class AbstractStartupListener implements IStartup {
 	 * yet. If not, a respective dialog is shown.
 	 */
 	public void configureFeedbackIfRequired() {
-		synchronized (StartupListener.class) {
+		final Display display = Display.getDefault();
+		display.asyncExec(new Runnable() {
+			
+			@Override
+			public void run() {
+				showDialog(display);
+			}
+		});
+	}
+	
+	private void showDialog(final Display display) {
+		// TODO figure out why this synchronized block does not prevent Eclipse
+		// from opening the two dialog in parallel
+		synchronized (lock) {
 			// check whether feedback was configured before
 			boolean showDialog = getLogic().isShowingDialogRequired();
 			if (!showDialog) {
 				return;
 			}
+
 			// otherwise show configuration wizard
-			final Display display = Display.getDefault();
-			display.asyncExec(new Runnable() {
-				
-				@Override
-				public void run() {
-					IConfigurationWizardOpener wizardOpener = getWizardOpener();
-					wizardOpener.showConfigurationWizardDialog(display.getActiveShell());
-				}
-			});
+			IConfigurationWizardOpener wizardOpener = getWizardOpener();
+			wizardOpener.showConfigurationWizardDialog(display.getActiveShell());
 		}
 	}
-	
+
 	protected abstract AbstractConfigurationLogic<?> getLogic();
 
 	protected abstract IConfigurationHandler createConfigurationHandler();
