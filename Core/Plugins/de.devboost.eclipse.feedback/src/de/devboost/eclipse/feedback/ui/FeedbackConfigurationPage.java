@@ -13,9 +13,6 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.eclipse.jface.resource.ImageDescriptor;
 import org.eclipse.jface.wizard.WizardPage;
 import org.eclipse.swt.SWT;
@@ -32,11 +29,9 @@ import org.eclipse.swt.widgets.Label;
 import org.eclipse.swt.widgets.Text;
 
 import de.devboost.eclipse.feedback.FeedbackPlugin;
-import de.devboost.eclipse.feedback.util.CachedImageDescriptor;
 
 class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 
-	private static final String DEVBOOST_LOGO = "http://www.devboost.de/eclipse-feedback/logo/";
 	private static final String PAGE_TITLE = "DevBoost Feedback Configuration";
 	private static final String PAGE_TITLE_2 = "DevBoost Open-Source Software Feedback Configuration";
 
@@ -48,24 +43,8 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 	private Label imageLabel;
 	private Button sendEmailButton;
 
-	public FeedbackConfigurationPage() {
-		// TODO call super with image descriptor
-		super(PAGE_TITLE);
-		setTitle(PAGE_TITLE_2);
-
-		URL url;
-		try {
-			url = new URL(DEVBOOST_LOGO);
-
-			ImageDescriptor imageDescriptor = new CachedImageDescriptor(
-					ImageDescriptor.createFromURL(url));
-
-			if (imageDescriptor.getImageData() != null) {
-				super.setImageDescriptor(imageDescriptor);
-			}
-		} catch (MalformedURLException e) {
-			FeedbackPlugin.logError("Can't load DevBoost logo: " + e.getMessage(), e);
-		}
+	public FeedbackConfigurationPage(ImageDescriptor imageDescriptor) {
+		super(PAGE_TITLE, PAGE_TITLE_2, imageDescriptor);
 
 		ImageData happyData = new ImageData(
 				FeedbackPlugin.class.getResourceAsStream("HappyGirl.jpg"));

@@ -13,19 +13,35 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
+import java.net.MalformedURLException;
+
+import org.eclipse.jface.resource.ImageDescriptor;
+
 import de.devboost.eclipse.feedback.FeedbackConfigurationLogic;
+import de.devboost.eclipse.feedback.FeedbackPlugin;
 import de.devboost.eclipse.feedback.IConfigurationHandler;
+import de.devboost.eclipse.feedback.util.ImageHelper;
 
 public class FeedbackConfigurationWizard extends AbstractConfigurationWizard 
 	implements ICancelListenable {
 	
-	private FeedbackConfigurationPage page = new FeedbackConfigurationPage();
+	private static final String DEVBOOST_LOGO = "http://www.devboost.de/eclipse-feedback/logo/";
+
+	private FeedbackConfigurationPage page;
 	private FeedbackConfigurationLogic logic;
 	
 	public FeedbackConfigurationWizard(IConfigurationHandler configurationHandler) {
 		super();
 		setWindowTitle("Feedback configuration");
 		
+		ImageDescriptor devBoostLogo = null;
+		try {
+			devBoostLogo = new ImageHelper().getImage(DEVBOOST_LOGO);
+		} catch (MalformedURLException e) {
+			FeedbackPlugin.logError("Can't load DevBoost logo: " + e.getMessage(), e);
+		}
+		page = new FeedbackConfigurationPage(devBoostLogo);
+
 		// initialize logic
 		logic = new FeedbackConfigurationLogic(configurationHandler);
 	}
