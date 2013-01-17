@@ -19,7 +19,6 @@ import org.eclipse.jface.resource.ImageDescriptor;
 
 import de.devboost.eclipse.feedback.FeedbackConfigurationLogic;
 import de.devboost.eclipse.feedback.FeedbackPlugin;
-import de.devboost.eclipse.feedback.IConfigurationHandler;
 import de.devboost.eclipse.feedback.util.ImageHelper;
 
 public class FeedbackConfigurationWizard extends AbstractConfigurationWizard 
@@ -30,7 +29,7 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard
 	private FeedbackConfigurationPage page;
 	private FeedbackConfigurationLogic logic;
 	
-	public FeedbackConfigurationWizard(IConfigurationHandler configurationHandler) {
+	public FeedbackConfigurationWizard(FeedbackConfigurationLogic logic) {
 		super();
 		setWindowTitle("Feedback configuration");
 		
@@ -41,9 +40,7 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard
 			FeedbackPlugin.logError("Can't load DevBoost logo: " + e.getMessage(), e);
 		}
 		page = new FeedbackConfigurationPage(devBoostLogo);
-
-		// initialize logic
-		logic = new FeedbackConfigurationLogic(configurationHandler);
+		this.logic = logic;
 	}
 
 	@Override

@@ -53,7 +53,7 @@ public abstract class AbstractStartupListener implements IStartup {
 	public void configureFeedbackIfRequired() {
 		synchronized (StartupListener.class) {
 			// check whether feedback was configured before
-			boolean showDialog = isShowingDialogRequired();
+			boolean showDialog = getLogic().isShowingDialogRequired();
 			if (!showDialog) {
 				return;
 			}
@@ -70,7 +70,7 @@ public abstract class AbstractStartupListener implements IStartup {
 		}
 	}
 	
-	protected abstract boolean isShowingDialogRequired();
+	protected abstract AbstractConfigurationLogic<?> getLogic();
 
 	protected abstract IConfigurationHandler createConfigurationHandler();
 

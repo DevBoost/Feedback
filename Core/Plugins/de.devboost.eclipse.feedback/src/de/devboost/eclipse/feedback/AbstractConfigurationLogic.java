@@ -31,6 +31,7 @@ public abstract class AbstractConfigurationLogic<DataType extends AbstractConfig
 	
 	public abstract void performFinish();
 	public abstract void performCancel();
+	public abstract boolean isShowingDialogRequired();
 
 	public boolean isEmailModifiable() {
 		return getData().getEmail() == null;

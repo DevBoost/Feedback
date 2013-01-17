@@ -15,6 +15,7 @@ package de.devboost.eclipse.feedback.ui;
 
 
 import de.devboost.eclipse.feedback.ConfigurationHandler;
+import de.devboost.eclipse.feedback.FeedbackConfigurationLogic;
 import de.devboost.eclipse.feedback.IConfigurationHandler;
 
 public class FeedbackConfigurationWizardRunner extends AbstractWizardRunner {
@@ -22,7 +23,8 @@ public class FeedbackConfigurationWizardRunner extends AbstractWizardRunner {
 	@Override
 	public IConfigurationWizardOpener getWizardOpener(String[] pluginPrefixes) {
 		IConfigurationHandler configurationHandler = new ConfigurationHandler(pluginPrefixes);
-		AbstractConfigurationWizard wizard = new FeedbackConfigurationWizard(configurationHandler);
+		FeedbackConfigurationLogic logic = new FeedbackConfigurationLogic(configurationHandler);
+		AbstractConfigurationWizard wizard = new FeedbackConfigurationWizard(logic);
 		IConfigurationWizardOpener helper = new ConfigurationWizardOpener(wizard);
 		return helper;
 	}
