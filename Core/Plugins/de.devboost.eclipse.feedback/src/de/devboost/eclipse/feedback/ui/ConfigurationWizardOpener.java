@@ -13,7 +13,6 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
-import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.widgets.Shell;
 
 public class ConfigurationWizardOpener implements IConfigurationWizardOpener {
@@ -30,8 +29,12 @@ public class ConfigurationWizardOpener implements IConfigurationWizardOpener {
 	 */
 	@Override
 	public void showConfigurationWizardDialog(Shell shell) {
-		WizardDialog wizardDialog = new CustomWizardDialog(shell, wizard);
+		CustomWizardDialog wizardDialog = new CustomWizardDialog(shell, wizard);
 		wizardDialog.setBlockOnOpen(true);
+		if (wizard instanceof IShowWizardPageListener) {
+			IShowWizardPageListener nextPageListener = (IShowWizardPageListener) wizard;
+			wizardDialog.setNextPageListener(nextPageListener);
+		}
 		wizardDialog.open();
 	}
 }

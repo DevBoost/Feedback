@@ -13,6 +13,7 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
+import org.eclipse.jface.wizard.IWizardPage;
 import org.eclipse.jface.wizard.WizardDialog;
 import org.eclipse.swt.events.MouseEvent;
 import org.eclipse.swt.events.MouseTrackListener;
@@ -21,10 +22,16 @@ import org.eclipse.swt.widgets.Shell;
 
 public class CustomWizardDialog extends WizardDialog {
 
+	private IShowWizardPageListener nextPageListener;
+
 	public CustomWizardDialog(Shell shell, AbstractConfigurationWizard newWizard) {
 		super(shell, newWizard);
 		setHelpAvailable(false);
 		newWizard.setWizardDialog(this);
+	}
+	
+	public void setNextPageListener(IShowWizardPageListener nextPageListener) {
+		this.nextPageListener = nextPageListener;
 	}
 
 	public void addCancelListener(final ICancelListener listener) {
@@ -47,5 +54,12 @@ public class CustomWizardDialog extends WizardDialog {
 			}
 		});
 	}
-
+	
+	@Override
+	public void showPage(IWizardPage page) {
+		if (nextPageListener != null) {
+			nextPageListener.notifyShowPage(page);
+		}
+		super.showPage(page);
+	}
 }

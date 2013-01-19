@@ -29,15 +29,11 @@ public abstract class AbstractConfigurationLogic<DataType extends AbstractConfig
 		return configurationHandler;
 	}
 	
-	public abstract void performFinish();
-	public abstract void performCancel();
-	public abstract boolean isShowingDialogRequired();
-
-	public boolean isEmailModifiable() {
-		return getData().getEmail() == null;
-	}
-
 	public DataType getData() {
 		return data;
 	}
+
+	public abstract void performFinish();
+	public abstract void performCancel();
+	public abstract boolean isShowingDialogRequired();
 }
