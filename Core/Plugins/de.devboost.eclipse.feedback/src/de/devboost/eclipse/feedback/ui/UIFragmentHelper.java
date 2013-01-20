@@ -29,8 +29,13 @@ import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 public class UIFragmentHelper {
 
 	public void createDevBoostHyperlink(Composite panel) {
+		String url = "http://www.devboost.de";
+		createLink(panel, url, url);
+	}
+
+	public void createLink(Composite panel, String text, String url) {
 		Link link = new Link(panel, SWT.NONE);
-		link.setText("<a href=\"http://www.devboost.de\">www.devboost.de</a>");
+		link.setText("<a href=\"" + url + "\">" + text + "</a>");
 
 		GridData gd = new GridData(SWT.RIGHT, SWT.TOP, true, true);
 		gd.horizontalSpan = 2;
@@ -52,6 +57,5 @@ public class UIFragmentHelper {
 				}
 			}
 		});
-
 	}
 }
