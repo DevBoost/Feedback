@@ -15,7 +15,7 @@ package de.devboost.eclipse.feedback;
 
 public interface IConfigurationConstants {
 
-	public String CONFIG_FILE_NAME = ".devboost-open-source-tools";
+	public String CONFIG_FILE_NAME = ".devboost-tool-config";
 	public String SYSTEM_PROPERTY_USER_DIR = "user.home";
 	
 	public String KEY_GUID = "guid";
