@@ -7,6 +7,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-Activator: de.devboost.eclipse.feedback.FeedbackPlugin
 Bundle-ActivationPolicy: lazy
 Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.core.resources,
  org.eclipse.ui,
  org.eclipse.osgi.services
 Export-Package: de.devboost.eclipse.feedback,

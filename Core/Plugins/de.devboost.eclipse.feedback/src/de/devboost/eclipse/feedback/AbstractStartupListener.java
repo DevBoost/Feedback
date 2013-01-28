@@ -13,9 +13,16 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
+import org.eclipse.core.resources.IWorkspace;
+import org.eclipse.core.resources.IWorkspaceRoot;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.core.runtime.IProgressMonitor;
+import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
+import org.eclipse.core.runtime.Status;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
+import org.eclipse.ui.progress.UIJob;
 import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 import org.osgi.service.log.LogReaderService;
@@ -25,7 +32,6 @@ import de.devboost.eclipse.feedback.ui.IConfigurationWizardOpener;
 
 public abstract class AbstractStartupListener implements IStartup {
 	
-	private final static Class<AbstractStartupListener> lock = AbstractStartupListener.class;
 	private IConfigurationHandler configurationHandler;
 
 	public AbstractStartupListener() {
@@ -52,30 +58,29 @@ public abstract class AbstractStartupListener implements IStartup {
 	 * yet. If not, a respective dialog is shown.
 	 */
 	public void configureFeedbackIfRequired() {
+		// use a job to prevent Eclipse from opening multiple dialogs in 
+		// parallel (use workspace root as scheduling rule)
 		final Display display = Display.getDefault();
-		display.asyncExec(new Runnable() {
+		UIJob job = new UIJob(display, "Show dialog") {
 			
 			@Override
-			public void run() {
-				showDialog(display);
-			}
-		});
-	}
-	
-	private void showDialog(final Display display) {
-		// TODO figure out why this synchronized block does not prevent Eclipse
-		// from opening the two dialog in parallel
-		synchronized (lock) {
-			// check whether feedback was configured before
-			boolean showDialog = getLogic().isShowingDialogRequired();
-			if (!showDialog) {
-				return;
-			}
+			public IStatus runInUIThread(IProgressMonitor monitor) {
+				boolean showDialog = getLogic().isShowingDialogRequired();
+				if (!showDialog) {
+					return Status.OK_STATUS;
+				}
 
-			// otherwise show configuration wizard
-			IConfigurationWizardOpener wizardOpener = getWizardOpener();
-			wizardOpener.showConfigurationWizardDialog(display.getActiveShell());
-		}
+				// otherwise show configuration wizard
+				IConfigurationWizardOpener wizardOpener = getWizardOpener();
+				wizardOpener.showConfigurationWizardDialog(display.getActiveShell());
+				return Status.OK_STATUS;
+			}
+		};
+		
+		IWorkspace workspace = ResourcesPlugin.getWorkspace();
+		IWorkspaceRoot root = workspace.getRoot();
+		job.setRule(root);
+		job.schedule();
 	}
 
 	protected abstract AbstractConfigurationLogic<?> getLogic();
