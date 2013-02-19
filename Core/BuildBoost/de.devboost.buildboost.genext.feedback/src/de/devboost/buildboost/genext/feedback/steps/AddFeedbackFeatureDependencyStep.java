@@ -24,6 +24,10 @@ import de.devboost.buildboost.ant.AntTarget;
 import de.devboost.buildboost.artifacts.EclipseFeature;
 import de.devboost.buildboost.util.XMLContent;
 
+/**
+ * The {@link AddFeedbackFeatureDependencyStep} adds a dependency to the
+ * DevBoost Feedback feature to all DevBoost and Dropsbox features.
+ */
 public class AddFeedbackFeatureDependencyStep extends AbstractAntTargetGenerator {
 	
 	private EclipseFeature feature;
@@ -38,12 +42,26 @@ public class AddFeedbackFeatureDependencyStep extends AbstractAntTargetGenerator
 		XMLContent content = new XMLContent();
 		
 		String feedbackFeatureID = "de.devboost.eclipse.feedback";
-		if (!feedbackFeatureID.equals(feature.getIdentifier())) {
+		String featureID = feature.getIdentifier();
+		if (!feedbackFeatureID.equals(featureID) &&
+			isFeatureRequiringFeedback(featureID)) {
 			content.append("<replace file='" + feature.getFile().getAbsolutePath() + "' token='&lt;requires&gt;' value='&lt;requires&gt;&lt;import feature=\"" + feedbackFeatureID + "\"/&gt;'/>");			
 		}
 
-		AntTarget target = new AntTarget("add-feedback-dependency-to-" + feature.getIdentifier(), content);
+		AntTarget target = new AntTarget("add-feedback-dependency-to-" + featureID, content);
 		return Collections.singletonList(target);
 	}
 
+	private boolean isFeatureRequiringFeedback(String featureID) {
+		if (featureID == null) {
+			return false;
+		}
+		if (featureID.startsWith("de.devboost.")) {
+			return true;
+		}
+		if (featureID.startsWith("org.dropsbox.")) {
+			return true;
+		}
+		return false;
+	}
 }
