@@ -7,6 +7,6 @@
       <category name="Feedback"/>
    </feature>
    <category-def name="Feedback" label="DevBoost Open-Source Feedback">
-      <description></description>
+      <description>DevBoost Open-Source Feedback - Allows users of DevBoost Open-Source Software to register and send error reports.</description>
    </category-def>
 </site>
