@@ -31,7 +31,7 @@ public class FeedbackConfiguration {
 			return null;
 		}
 		return Boolean.parseBoolean(value);
-	};
+	}
 
 	public String getStringProperty(String key) {
 		String value = properties.getProperty(key);
