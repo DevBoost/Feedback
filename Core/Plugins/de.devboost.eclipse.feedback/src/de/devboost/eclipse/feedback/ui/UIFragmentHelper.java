@@ -13,18 +13,13 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
 
-import java.net.URL;
-
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.program.Program;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Link;
-import org.eclipse.ui.IWorkbench;
-import org.eclipse.ui.PlatformUI;
-import org.eclipse.ui.browser.IWebBrowser;
-import org.eclipse.ui.browser.IWorkbenchBrowserSupport;
 
 public class UIFragmentHelper {
 
@@ -37,21 +32,18 @@ public class UIFragmentHelper {
 		Link link = new Link(panel, SWT.NONE);
 		link.setText("<a href=\"" + url + "\">" + text + "</a>");
 
-		GridData gd = new GridData(SWT.RIGHT, SWT.TOP, true, true);
+		GridData gd = new GridData(SWT.RIGHT, SWT.TOP, true, false);
 		gd.horizontalSpan = 2;
 		gd.heightHint = 20;
+		gd.verticalAlignment = SWT.TOP;
 		link.setLayoutData(gd);
 
 		link.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				try {
-					// Open default external browser
-					IWorkbench workbench = PlatformUI.getWorkbench();
-					IWorkbenchBrowserSupport browserSupport = workbench.getBrowserSupport();
-					IWebBrowser externalBrowser = browserSupport.getExternalBrowser();
-					URL url = new URL(e.text);
-					externalBrowser.openURL(url);
+					// Open default external browser with URL
+					Program.launch(e.text);
 				} catch (Exception ex) {
 					// do nothing
 				}
