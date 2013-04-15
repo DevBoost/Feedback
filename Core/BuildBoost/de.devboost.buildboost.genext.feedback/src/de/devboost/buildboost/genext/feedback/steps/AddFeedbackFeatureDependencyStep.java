@@ -30,6 +30,8 @@ import de.devboost.buildboost.util.XMLContent;
  */
 public class AddFeedbackFeatureDependencyStep extends AbstractAntTargetGenerator {
 	
+	private final static String FEEDBACK_FEATURE_ID = "de.devboost.eclipse.feedback";
+
 	private EclipseFeature feature;
 
 	public AddFeedbackFeatureDependencyStep(EclipseFeature feature) {
@@ -39,17 +41,18 @@ public class AddFeedbackFeatureDependencyStep extends AbstractAntTargetGenerator
 	
 	@Override
 	public Collection<AntTarget> generateAntTargets() throws BuildException {
-		XMLContent content = new XMLContent();
 		
-		String feedbackFeatureID = "de.devboost.eclipse.feedback";
 		String featureID = feature.getIdentifier();
-		if (!feedbackFeatureID.equals(featureID) &&
+		if (!FEEDBACK_FEATURE_ID.equals(featureID) &&
 			isFeatureRequiringFeedback(featureID)) {
-			content.append("<replace file='" + feature.getFile().getAbsolutePath() + "' token='&lt;requires&gt;' value='&lt;requires&gt;&lt;import feature=\"" + feedbackFeatureID + "\"/&gt;'/>");			
-		}
 
-		AntTarget target = new AntTarget("add-feedback-dependency-to-" + featureID, content);
-		return Collections.singletonList(target);
+			XMLContent content = new XMLContent();
+			content.append("<replace file='" + feature.getFile().getAbsolutePath() + "' token='&lt;requires&gt;' value='&lt;requires&gt;&lt;import feature=\"" + FEEDBACK_FEATURE_ID + "\"/&gt;'/>");			
+			AntTarget target = new AntTarget("add-feedback-dependency-to-" + featureID, content);
+			return Collections.singletonList(target);
+		} else {
+			return Collections.emptyList();
+		}
 	}
 
 	private boolean isFeatureRequiringFeedback(String featureID) {
