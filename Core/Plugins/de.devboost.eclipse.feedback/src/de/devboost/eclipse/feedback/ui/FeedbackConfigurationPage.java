@@ -46,12 +46,12 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 	public FeedbackConfigurationPage(ImageDescriptor imageDescriptor) {
 		super(PAGE_TITLE, PAGE_TITLE_2, imageDescriptor);
 
+		// TODO Why are these two images created in a different way?
 		ImageData happyData = new ImageData(
 				FeedbackPlugin.class.getResourceAsStream("HappyGirl.jpg"));
 		happyImage = new Image(Display.getCurrent(), happyData);
 		sadImage = new Image(Display.getDefault(),
 				FeedbackPlugin.class.getResourceAsStream("SadBoy.jpg"));
-
 	}
 
 	@Override
@@ -72,7 +72,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 						+ "our tools, we kindly ask you to register this installation\n"
 						+ "and to enable error feedback reporting. If you want to keep\n"
 						+ "up to date with our latest progress you can also enter\n"
-						+ "your Email address below.\n\n"
+						+ "your e-mail address below.\n\n"
 
 						+ "Of course, all this is optional. If you decide to cancel this\n"
 						+ "dialog, you won't be bothered again.\n\n" + "Enjoy.");
@@ -114,18 +114,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		sendErrorsButton.setLayoutData(gd);
 
 		createEmailPanel(panel);
-
-		// createImmediateFeedbackPane(panel);
 	}
-
-	// private void createImmediateFeedbackPane(Composite panel) {
-	// Text feedback = new Text(panel, SWT.WRAP | SWT.MULTI | SWT.V_SCROLL);
-	// feedback.setText("Here is some room for immediate feedback. If you like.");
-	// GridData gd = new GridData(SWT.FILL, SWT.FILL, true, true);
-	// gd.horizontalSpan = 2;
-	// gd.heightHint = 50;
-	// feedback.setLayoutData(gd);
-	// }
 
 	private void createImagePanel(Composite panel) {
 		imageLabel = new Label(panel, SWT.NONE);
@@ -134,22 +123,20 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		gd.grabExcessVerticalSpace = true;
 		gd.verticalAlignment = SWT.TOP;
 		imageLabel.setLayoutData(gd);
-
 	}
 
 	private Composite createEmailPanel(Composite parent) {
 		Composite panel = new Composite(parent, SWT.NONE);
 		GridLayout layout = new GridLayout(2, false);
 		layout.marginWidth = 0;
-		// layout.marginTop = -6;
 		panel.setLayout(layout);
 		GridData gd = new GridData();
 		gd.horizontalSpan = 2;
 		panel.setLayoutData(gd);
 		sendEmailButton = new Button(panel, SWT.CHECK);
-		sendEmailButton.setText("Send your Email address:");
+		sendEmailButton.setText("Send your e-mail address:");
 		sendEmailButton
-				.setToolTipText("Your Email address will be used to send you news on our tools.");
+				.setToolTipText("Your e-mail address will be used to send you news on our tools.");
 		sendEmailButton.setSelection(true);
 		gd = new GridData();
 		gd.horizontalIndent = 0;
@@ -165,13 +152,11 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 			private void toggleEmailText() {
 				emailText.setEditable(sendEmailButton.getSelection());
 				emailText.setEnabled(sendEmailButton.getSelection());
-
 			}
 
 			@Override
 			public void widgetDefaultSelected(SelectionEvent e) {
 				toggleEmailText();
-
 			}
 		});
 
