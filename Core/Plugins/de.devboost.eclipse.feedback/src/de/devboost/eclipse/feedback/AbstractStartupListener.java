@@ -49,15 +49,15 @@ public abstract class AbstractStartupListener implements IStartup {
 		}
 		
 		registerLogListener(plugin, pluginPrefixes);
-		
-		configureFeedbackIfRequired();
+		showConfigurationDialogIfRequired();
 	}
 
 	/**
-	 * Checks whether the current user has configured his feedback preferences
-	 * yet. If not, a respective dialog is shown.
+	 * Checks whether the current user has configured his preferences yet. If
+	 * not, a respective dialog is shown. The concrete dialog is obtained using
+	 * template method {@link #getWizardOpener()}.
 	 */
-	public void configureFeedbackIfRequired() {
+	public void showConfigurationDialogIfRequired() {
 		// use a job to prevent Eclipse from opening multiple dialogs in 
 		// parallel (use workspace root as scheduling rule)
 		final Display display = Display.getDefault();

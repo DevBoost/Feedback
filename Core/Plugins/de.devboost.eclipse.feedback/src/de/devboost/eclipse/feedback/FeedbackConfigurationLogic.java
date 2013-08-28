@@ -17,6 +17,10 @@ import java.util.List;
 import java.util.Properties;
 import java.util.UUID;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.runtime.Platform;
 import org.osgi.framework.Bundle;
 
 public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<FeedbackConfigurationData> {
@@ -29,6 +33,10 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 	public boolean isShowingDialogRequired() {
 		FeedbackPlugin plugin = FeedbackPlugin.getDefault();
 		if (plugin == null) {
+			return false;
+		}
+		
+		if (isFeedbackDialogReplaced()) {
 			return false;
 		}
 		
@@ -58,6 +66,33 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 		configuration.getProperties().setProperty(key, Boolean.TRUE.toString());
 		configurationHandler.saveConfiguration(configuration);
 		return true;
+	}
+
+	private boolean isFeedbackDialogReplaced() {
+		if (!Platform.isRunning()) {
+			return false;
+		}
+		
+		// find dialog replacement deciders
+		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
+		IConfigurationElement configurationElements[] = extensionRegistry.getConfigurationElementsFor("de.devboost.eclipse.feedback.replacement");
+		for (org.eclipse.core.runtime.IConfigurationElement element : configurationElements) {
+			try {
+				Object extension = element.createExecutableExtension("class");
+				if (extension instanceof IFeedbackDialogReplacementDecider) {
+					IFeedbackDialogReplacementDecider provider = (IFeedbackDialogReplacementDecider) extension;
+					if (provider.isReplaced()) {
+						return true;
+					}
+				}
+			} catch (CoreException ce) {
+				FeedbackPlugin.logError("Exception while loading feedback replacement decider.", ce);
+			}
+		}
+		
+		// no replacement decider found or none of the deciders did replace the
+		// feedback dialog
+		return false;
 	}
 
 	private static FeedbackConfigurationData getFeedbackConfigurationData(

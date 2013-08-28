@@ -72,24 +72,32 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		return file;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.devboost.eclipse.feedback.IConfigurationHandler#loadConfiguration()
-	 */
 	@Override
 	public FeedbackConfiguration loadConfiguration() {
 		File file = getConfigFile();
 		if (!file.exists()) {
 			return null;
 		}
+
+		FileInputStream fileInputStream = null;
 		try {
+			fileInputStream = new FileInputStream(file);
 			Properties properties = new Properties();
-			properties.load(new FileInputStream(file));
+			properties.load(fileInputStream);
 			FeedbackConfiguration configuration = new FeedbackConfiguration();
 			configuration.getProperties().putAll(properties);
 			return configuration;
 		} catch (IOException e) {
 			FeedbackPlugin.logInfo("Could not load DevBoost feedback configuration", e);
 			return null;
+		} finally {
+			if (fileInputStream != null) {
+				try {
+					fileInputStream.close();
+				} catch (IOException e) {
+					FeedbackPlugin.logInfo("Could not close input stream for DevBoost feedback configuration", e);
+				}
+			}
 		}
 	}
 }
