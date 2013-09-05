@@ -23,17 +23,17 @@ import org.eclipse.swt.widgets.Link;
 
 public class UIFragmentHelper {
 
-	public void createDevBoostHyperlink(Composite panel) {
+	public void createDevBoostHyperlink(Composite panel, int horizontalSpan) {
 		String url = "http://www.devboost.de";
-		createLink(panel, url, url);
+		createLink(panel, url, url, horizontalSpan);
 	}
 
-	public void createLink(Composite panel, String text, String url) {
+	public void createLink(Composite panel, String text, String url, int horizontalSpan) {
 		Link link = new Link(panel, SWT.NONE);
 		link.setText("<a href=\"" + url + "\">" + text + "</a>");
 
 		GridData gd = new GridData(SWT.RIGHT, SWT.TOP, true, false);
-		gd.horizontalSpan = 2;
+		gd.horizontalSpan = horizontalSpan;
 		gd.heightHint = 20;
 		gd.verticalAlignment = SWT.TOP;
 		link.setLayoutData(gd);

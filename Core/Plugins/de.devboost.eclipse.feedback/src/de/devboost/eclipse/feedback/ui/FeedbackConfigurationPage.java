@@ -56,8 +56,9 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 
 	@Override
 	public void createControl(Composite parent) {
+		final int columnCount = 2;
 		Composite panel = new Composite(parent, SWT.FILL);
-		GridLayout gl = new GridLayout(2, false);
+		GridLayout gl = new GridLayout(columnCount, false);
 		panel.setLayout(gl);
 
 		Text messageText = new Text(panel, SWT.WRAP | SWT.MULTI | SWT.READ_ONLY);
@@ -83,7 +84,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		createImagePanel(panel);
 
 		createRegistrationComposite(panel);
-		new UIFragmentHelper().createDevBoostHyperlink(panel);
+		new UIFragmentHelper().createDevBoostHyperlink(panel, columnCount);
 
 		setControl(panel);
 		FeedbackConfigurationWizard feedbackConfigurationWizard = (FeedbackConfigurationWizard) getWizard();
