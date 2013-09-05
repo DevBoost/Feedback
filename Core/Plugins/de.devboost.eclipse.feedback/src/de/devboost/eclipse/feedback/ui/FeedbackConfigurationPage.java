@@ -72,7 +72,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 						+ "our tools, we kindly ask you to register this installation\n"
 						+ "and to enable error feedback reporting. If you want to keep\n"
 						+ "up to date with our latest progress you can also enter\n"
-						+ "your e-mail address below.\n\n"
+						+ "your email address below.\n\n"
 
 						+ "Of course, all this is optional. If you decide to cancel this\n"
 						+ "dialog, you won't be bothered again.\n\n" + "Enjoy.");
@@ -134,9 +134,9 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		gd.horizontalSpan = 2;
 		panel.setLayoutData(gd);
 		sendEmailButton = new Button(panel, SWT.CHECK);
-		sendEmailButton.setText("Send your e-mail address:");
+		sendEmailButton.setText("Send your email address:");
 		sendEmailButton
-				.setToolTipText("Your e-mail address will be used to send you news on our tools.");
+				.setToolTipText("Your email address will be used to send you news on our tools.");
 		sendEmailButton.setSelection(true);
 		gd = new GridData();
 		gd.horizontalIndent = 0;
