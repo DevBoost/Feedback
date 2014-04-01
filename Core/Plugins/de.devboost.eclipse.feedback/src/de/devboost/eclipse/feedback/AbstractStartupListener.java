@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012-2013
+ * Copyright (c) 2012-2014
  * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
  *
  * All rights reserved. This program and the accompanying materials
@@ -13,13 +13,11 @@
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
-import org.eclipse.core.resources.IWorkspace;
-import org.eclipse.core.resources.IWorkspaceRoot;
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
 import org.eclipse.core.runtime.Plugin;
 import org.eclipse.core.runtime.Status;
+import org.eclipse.core.runtime.jobs.ISchedulingRule;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.ui.IStartup;
 import org.eclipse.ui.progress.UIJob;
@@ -31,6 +29,19 @@ import org.osgi.util.tracker.ServiceTracker;
 import de.devboost.eclipse.feedback.ui.IConfigurationWizardOpener;
 
 public abstract class AbstractStartupListener implements IStartup {
+	
+	public static class MutexRule implements ISchedulingRule {
+		
+		public boolean isConflicting(ISchedulingRule rule) {
+			return rule == this;
+		}
+		
+		public boolean contains(ISchedulingRule rule) {
+			return rule == this;
+		}
+	}
+
+	private final static MutexRule DIALOG_MUTEX = new MutexRule();
 	
 	private IConfigurationHandler configurationHandler;
 
@@ -77,9 +88,7 @@ public abstract class AbstractStartupListener implements IStartup {
 			}
 		};
 		
-		IWorkspace workspace = ResourcesPlugin.getWorkspace();
-		IWorkspaceRoot root = workspace.getRoot();
-		job.setRule(root);
+		job.setRule(DIALOG_MUTEX);
 		job.schedule();
 	}
 
