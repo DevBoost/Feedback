@@ -28,6 +28,7 @@ import java.util.Properties;
 public class ConfigurationHandler implements IConfigurationHandler {
 
 	private String[] pluginPrefixes;
+	private long lastConfigurationFileUpdate;
 	
 	public ConfigurationHandler(String[] pluginPrefixes) {
 		super();
@@ -71,6 +72,19 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		File file = new File(userDir, IConfigurationConstants.CONFIG_FILE_NAME);
 		return file;
 	}
+	
+	public boolean hasConfigurationChanged() {
+		File file = getConfigFile();
+		if (!file.exists()) {
+			return true;
+		}
+		
+		if (lastConfigurationFileUpdate != file.lastModified()) {
+			return true;
+		}
+		
+		return false;
+	}
 
 	@Override
 	public FeedbackConfiguration loadConfiguration() {
@@ -78,6 +92,8 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		if (!file.exists()) {
 			return null;
 		}
+		
+		lastConfigurationFileUpdate = file.lastModified();
 
 		FileInputStream fileInputStream = null;
 		try {
