@@ -1,15 +1,20 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <feature
-		id="de.devboost.eclipse.feedback"
-		label="DevBoost Open-Source Feedback"
-		version="1.1.8"
-		provider-name="DevBoost GmbH - Germany">
+      id="de.devboost.eclipse.feedback"
+      label="DevBoost Open-Source Feedback"
+      version="1.1.9"
+      provider-name="DevBoost GmbH - Germany">
 
-	<description url="http://www.devboost.de">Feedback support for DevBoost open-source tools.</description>
+   <description url="http://www.devboost.de">
+      Feedback support for DevBoost open-source tools.
+   </description>
 
-	<copyright>Copyright (c) 2011-2014 DevBoost GmbH - Germany</copyright>
+   <copyright>
+      Copyright (c) 2011-2014 DevBoost GmbH - Germany
+   </copyright>
 
-	<license>Eclipse Public License v1.0
+   <license>
+      Eclipse Public License v1.0
 
 Copyright (c) 2006-2014
 DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
@@ -19,12 +24,17 @@ All rights reserved. This program and the accompanying materials are made availa
 Contributors:
   DevBoost GmbH - Berlin, Germany
      - initial API and implementation
-	</license>
+   </license>
 
-	<requires>
-		<import feature="org.eclipse.platform"/>
-	</requires>
+   <requires>
+      <import feature="org.eclipse.platform"/>
+   </requires>
 
-	<plugin download-size="0" id="de.devboost.eclipse.feedback" install-size="0" unpack="false" version="0.0.0"/>
+   <plugin
+         id="de.devboost.eclipse.feedback"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
 
 </feature>
