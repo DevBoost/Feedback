@@ -2,7 +2,7 @@
 <feature
       id="de.devboost.eclipse.feedback"
       label="DevBoost Open-Source Feedback"
-      version="1.1.9"
+      version="1.1.10"
       provider-name="DevBoost GmbH - Germany">
 
    <description url="http://www.devboost.de">
