@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2012-2014
- * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ * Copyright (c) 2012-2015
+ * DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,10 +8,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   DevBoost GmbH - Berlin, Germany
+ *   DevBoost GmbH - Dresden, Germany
  *      - initial API and implementation
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
+
+import java.util.List;
 
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.core.runtime.IStatus;
@@ -54,7 +56,7 @@ public abstract class AbstractStartupListener implements IStartup {
 		return configurationHandler;
 	}
 
-	protected void doEarlyStartup(Plugin plugin, String[] pluginPrefixes) {
+	protected void doEarlyStartup(Plugin plugin, List<String> pluginPrefixes) {
 		if (plugin == null) {
 			return;
 		}
@@ -102,7 +104,7 @@ public abstract class AbstractStartupListener implements IStartup {
 	 */
 	protected abstract IConfigurationWizardOpener getWizardOpener();
 
-	private void registerLogListener(Plugin plugin, String[] pluginPrefixes) {
+	private void registerLogListener(Plugin plugin, List<String> pluginPrefixes) {
 		Bundle bundle = plugin.getBundle();
 		BundleContext bundleContext = bundle.getBundleContext();
 		ServiceTracker<LogReaderService, Object> logReaderTracker = new ServiceTracker<LogReaderService, Object>(

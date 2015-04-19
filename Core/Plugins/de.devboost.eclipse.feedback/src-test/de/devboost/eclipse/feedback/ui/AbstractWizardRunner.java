@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2012
- * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ * Copyright (c) 2012-2015
+ * DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,10 +8,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   DevBoost GmbH - Berlin, Germany
+ *   DevBoost GmbH - Dresden, Germany
  *      - initial API and implementation
  ******************************************************************************/
 package de.devboost.eclipse.feedback.ui;
+
+import java.util.List;
 
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -34,7 +36,7 @@ public abstract class AbstractWizardRunner {
 		shell.setSize(150, 200);
 		shell.open();
 	
-		String[] pluginPrefixes = IOpenSourcePlugins.DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES;
+		List<String> pluginPrefixes = IOpenSourcePlugins.DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES;
 		IConfigurationWizardOpener helper = getWizardOpener(pluginPrefixes);
 		helper.showConfigurationWizardDialog(shell);
 		
@@ -45,7 +47,7 @@ public abstract class AbstractWizardRunner {
 		}
 	}
 
-	protected abstract IConfigurationWizardOpener getWizardOpener(String[] pluginPrefixes);
+	protected abstract IConfigurationWizardOpener getWizardOpener(List<String> pluginPrefixes);
 
 	public void stop() {
 		if (display != null) {

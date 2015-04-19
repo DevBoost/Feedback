@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2012-2013
- * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ * Copyright (c) 2012-2015
+ * DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,11 +8,12 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   DevBoost GmbH - Berlin, Germany
+ *   DevBoost GmbH - Dresden, Germany
  *      - initial API and implementation
  ******************************************************************************/
 package de.devboost.eclipse.feedback;
 
+import java.util.List;
 import java.util.Properties;
 
 import org.osgi.framework.Bundle;
@@ -26,10 +27,10 @@ class FeedbackLogListener implements LogListener {
 	private static final String KEY_TIME = "time";
 	private static final String KEY_MESSAGE = "message";
 
-	private String[] pluginPrefixes;
+	private List<String> pluginPrefixes;
 	private IConfigurationHandler configurationHandler;
 	
-	public FeedbackLogListener(String[] pluginPrefixes, IConfigurationHandler configurationHandler) {
+	public FeedbackLogListener(List<String> pluginPrefixes, IConfigurationHandler configurationHandler) {
 		super();
 		this.pluginPrefixes = pluginPrefixes;
 		this.configurationHandler = configurationHandler;
