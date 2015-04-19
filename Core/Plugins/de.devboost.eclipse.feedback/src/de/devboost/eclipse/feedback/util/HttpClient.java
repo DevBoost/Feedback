@@ -1,6 +1,6 @@
 /*******************************************************************************
- * Copyright (c) 2012-2013
- * DevBoost GmbH, Berlin, Amtsgericht Charlottenburg, HRB 140026
+ * Copyright (c) 2012-2015
+ * DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
  *
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
@@ -8,7 +8,7 @@
  * http://www.eclipse.org/legal/epl-v10.html
  *
  * Contributors:
- *   DevBoost GmbH - Berlin, Germany
+ *   DevBoost GmbH - Dresden, Germany
  *      - initial API and implementation
  ******************************************************************************/
 package de.devboost.eclipse.feedback.util;
@@ -36,20 +36,20 @@ public class HttpClient {
 			httpConnection.setRequestMethod(method.name());
 			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpConnection.setRequestProperty("charset", "utf-8");
-			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
+			httpConnection.setRequestProperty("Content-Length", "" + data.getBytes().length);
 			httpConnection.setUseCaches(false);
 			httpConnection.setConnectTimeout(2000);
 			// connect
 			httpConnection.connect();
 			// send post request
-			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
+			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream(), "UTF-8");
 			// write parameters
 			writer.write(data);
 			writer.flush();
 
 			StringBuilder response = new StringBuilder();
 			InputStream inputStream = httpConnection.getInputStream();
-			InputStreamReader reader = new InputStreamReader(inputStream);
+			InputStreamReader reader = new InputStreamReader(inputStream, "UTF-8");
 			int next = -1;
 			while ((next = reader.read()) >= 0) {
 				response.append((char) next);
