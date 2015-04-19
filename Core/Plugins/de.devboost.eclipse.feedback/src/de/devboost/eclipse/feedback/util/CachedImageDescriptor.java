@@ -28,10 +28,9 @@ public class CachedImageDescriptor extends ImageDescriptor {
 	@Override
 	public ImageData getImageData() {
 		if (fData == null) {
-			fData= fDescriptor.getImageData();
+			fData = fDescriptor.getImageData();
 		}
 		return fData;
 	}
-
 
 }

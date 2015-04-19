@@ -22,8 +22,7 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.Version;
 
 /**
- * The PropertyCreator wraps data into Properties objects. This way, information
- * can be easily sent to the server.
+ * The PropertyCreator wraps data into Properties objects. This way, information can be easily sent to the server.
  */
 class PropertyCreator {
 
@@ -36,7 +35,7 @@ class PropertyCreator {
 	private static final String KEY_EXCEPTION_STACKTRACE = "stacktrace";
 
 	private List<String> pluginPrefixes;
-	
+
 	public PropertyCreator(List<String> pluginPrefixes) {
 		super();
 		this.pluginPrefixes = pluginPrefixes;
@@ -46,7 +45,7 @@ class PropertyCreator {
 		// send list of installed DevBoost plug-ins and versions
 		FeedbackPlugin feedbackPlugin = FeedbackPlugin.getDefault();
 		List<Bundle> bundlesSendingFeedback = new PluginFilter(pluginPrefixes).getMatchingBundles(feedbackPlugin);
-		
+
 		for (int i = 0; i < bundlesSendingFeedback.size(); i++) {
 			Bundle bundle = bundlesSendingFeedback.get(i);
 			Version version = bundle.getVersion();
@@ -58,7 +57,7 @@ class PropertyCreator {
 			properties.put(KEY_BUNDLE + "." + i + ".qualifier", qualifierString == null ? "null" : qualifierString);
 		}
 	}
-	
+
 	public void addException(Properties properties, Throwable exception) {
 		addException(properties, KEY_EXCEPTION, exception, new LinkedHashSet<Throwable>());
 	}
@@ -71,7 +70,7 @@ class PropertyCreator {
 			return;
 		}
 		handledExceptions.add(exception);
-		
+
 		String stackTrace = new ExceptionHelper().getStackTrace(exception);
 
 		String exceptionClassName = exception.getClass().getName();
@@ -79,7 +78,7 @@ class PropertyCreator {
 		properties.put(key + "." + KEY_EXCEPTION_TYPE, exceptionClassName == null ? "null" : exceptionClassName);
 		properties.put(key + "." + KEY_EXCEPTION_MESSAGE, message == null ? "null" : exceptionClassName);
 		properties.put(key + "." + KEY_EXCEPTION_STACKTRACE, stackTrace);
-		
+
 		addException(properties, key + "." + KEY_EXCEPTION_CAUSE, exception.getCause(), handledExceptions);
 	}
 }

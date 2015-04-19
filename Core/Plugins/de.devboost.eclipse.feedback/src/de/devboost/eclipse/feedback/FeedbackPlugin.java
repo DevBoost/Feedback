@@ -60,13 +60,16 @@ public class FeedbackPlugin extends AbstractUIPlugin {
 	public static void logError(String message, Throwable cause) {
 		log(IStatus.ERROR, message, cause);
 	}
-	
+
 	/**
 	 * Helper method for logging.
 	 * 
-	 * @param type the type of the message to log
-	 * @param message the message to log
-	 * @param throwable the exception that describes the error in detail (can be null)
+	 * @param type
+	 *            the type of the message to log
+	 * @param message
+	 *            the message to log
+	 * @param throwable
+	 *            the exception that describes the error in detail (can be null)
 	 * 
 	 * @return the status object describing the error
 	 */

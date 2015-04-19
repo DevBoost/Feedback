@@ -25,41 +25,41 @@ import java.net.URLConnection;
 
 public class HttpClient {
 
-	public String sendOverHttp(String url, HttpMethod method, String data)
-			throws IOException, MalformedURLException, ProtocolException {
+	public String sendOverHttp(String url, HttpMethod method, String data) throws IOException, MalformedURLException,
+			ProtocolException {
 		URLConnection connection = new URL(url).openConnection();
 		if (connection instanceof HttpURLConnection) {
 			HttpURLConnection httpConnection = (HttpURLConnection) connection;
 			httpConnection.setDoOutput(true);
 			httpConnection.setDoInput(true);
-			httpConnection.setInstanceFollowRedirects(false); 
-			httpConnection.setRequestMethod(method.name()); 
-			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded"); 
+			httpConnection.setInstanceFollowRedirects(false);
+			httpConnection.setRequestMethod(method.name());
+			httpConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 			httpConnection.setRequestProperty("charset", "utf-8");
 			httpConnection.setRequestProperty("Content-Length", "" + Integer.toString(data.getBytes().length));
 			httpConnection.setUseCaches(false);
 			httpConnection.setConnectTimeout(2000);
-            // connect
-            httpConnection.connect();
+			// connect
+			httpConnection.connect();
 			// send post request
 			OutputStreamWriter writer = new OutputStreamWriter(connection.getOutputStream());
-            // write parameters
-            writer.write(data);
-            writer.flush();
-            
-            StringBuilder response = new StringBuilder();
-            InputStream inputStream = httpConnection.getInputStream();
+			// write parameters
+			writer.write(data);
+			writer.flush();
+
+			StringBuilder response = new StringBuilder();
+			InputStream inputStream = httpConnection.getInputStream();
 			InputStreamReader reader = new InputStreamReader(inputStream);
 			int next = -1;
 			while ((next = reader.read()) >= 0) {
 				response.append((char) next);
 			}
-            
-            httpConnection.getResponseCode();
+
+			httpConnection.getResponseCode();
 			// close connection
-    		httpConnection.disconnect();
-    		
-    		return response.toString();
+			httpConnection.disconnect();
+
+			return response.toString();
 		}
 		return null;
 	}

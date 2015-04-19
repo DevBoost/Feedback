@@ -15,6 +15,5 @@ package de.devboost.eclipse.feedback.util;
 
 public enum HttpMethod {
 
-	GET,
-	POST
+	GET, POST
 }

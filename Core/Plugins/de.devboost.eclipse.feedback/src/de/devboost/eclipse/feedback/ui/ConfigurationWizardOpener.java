@@ -18,14 +18,18 @@ import org.eclipse.swt.widgets.Shell;
 public class ConfigurationWizardOpener implements IConfigurationWizardOpener {
 
 	private AbstractConfigurationWizard wizard;
-	
+
 	public ConfigurationWizardOpener(AbstractConfigurationWizard wizard) {
 		super();
 		this.wizard = wizard;
 	}
 
-	/* (non-Javadoc)
-	 * @see de.devboost.eclipse.feedback.ui.ConfigurationWizardOpener#showConfigurationWizardDialog(org.eclipse.swt.widgets.Shell)
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see
+	 * de.devboost.eclipse.feedback.ui.ConfigurationWizardOpener#showConfigurationWizardDialog(org.eclipse.swt.widgets
+	 * .Shell)
 	 */
 	@Override
 	public void showConfigurationWizardDialog(Shell shell) {

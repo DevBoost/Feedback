@@ -29,7 +29,7 @@ public class CustomWizardDialog extends WizardDialog {
 		setHelpAvailable(false);
 		newWizard.setWizardDialog(this);
 	}
-	
+
 	public void setNextPageListener(IShowWizardPageListener nextPageListener) {
 		this.nextPageListener = nextPageListener;
 	}
@@ -54,7 +54,7 @@ public class CustomWizardDialog extends WizardDialog {
 			}
 		});
 	}
-	
+
 	@Override
 	public void showPage(IWizardPage page) {
 		if (nextPageListener != null) {

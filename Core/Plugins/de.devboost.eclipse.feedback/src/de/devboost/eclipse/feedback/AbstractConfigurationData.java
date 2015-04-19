@@ -16,5 +16,6 @@ package de.devboost.eclipse.feedback;
 public abstract class AbstractConfigurationData {
 
 	public abstract String getEmail();
+
 	public abstract void setEmail(String email);
 }

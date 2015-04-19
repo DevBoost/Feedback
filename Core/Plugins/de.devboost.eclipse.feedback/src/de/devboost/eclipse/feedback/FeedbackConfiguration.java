@@ -19,12 +19,12 @@ import java.util.Properties;
 public class FeedbackConfiguration {
 
 	private Properties properties;
-	
+
 	public FeedbackConfiguration() {
 		super();
 		this.properties = new Properties();
 	}
-	
+
 	public Boolean getBooleanProperty(String key) {
 		String value = properties.getProperty(key);
 		if (value == null) {

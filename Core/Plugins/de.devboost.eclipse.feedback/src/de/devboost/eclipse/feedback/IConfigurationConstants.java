@@ -17,7 +17,7 @@ public interface IConfigurationConstants {
 
 	public String CONFIG_FILE_NAME = ".devboost-tool-config";
 	public String SYSTEM_PROPERTY_USER_DIR = "user.home";
-	
+
 	public String KEY_GUID = "guid";
 	public String KEY_EMAIL = "email";
 	public String KEY_REGISTER_INSTALLATION = "register_installation";

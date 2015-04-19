@@ -26,7 +26,7 @@ class FeedbackClient {
 	private static final String UTF_8 = "UTF-8";
 
 	private static final String FEEDBACK_URL = "http://www.devboost.de/eclipse-feedback/";
-	
+
 	public static final String KEY_FEEDBACK_TYPE = "feedbacktype";
 
 	public void sendPropertiesToServer(Properties properties) {
@@ -41,10 +41,10 @@ class FeedbackClient {
 
 	protected void sendXmlOverHttp(String xmlString) throws IOException {
 		// set parameters
-        String data = "data=" + URLEncoder.encode(xmlString, UTF_8);
+		String data = "data=" + URLEncoder.encode(xmlString, UTF_8);
 		String url = FEEDBACK_URL;
 		HttpMethod method = HttpMethod.POST;
-		
+
 		// send request
 		new HttpClient().sendOverHttp(url, method, data);
 	}

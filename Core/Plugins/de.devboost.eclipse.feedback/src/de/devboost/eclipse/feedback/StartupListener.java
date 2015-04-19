@@ -22,7 +22,7 @@ import de.devboost.eclipse.feedback.ui.IConfigurationWizardOpener;
 public class StartupListener extends AbstractStartupListener {
 
 	private FeedbackConfigurationLogic logic;
-	
+
 	public StartupListener() {
 		super();
 	}
@@ -30,7 +30,7 @@ public class StartupListener extends AbstractStartupListener {
 	@Override
 	public void earlyStartup() {
 		FeedbackPlugin plugin = FeedbackPlugin.getDefault();
-		
+
 		logic = new FeedbackConfigurationLogic(getConfigurationHandler());
 		doEarlyStartup(plugin, getPluginPrefixes());
 	}
@@ -45,7 +45,7 @@ public class StartupListener extends AbstractStartupListener {
 	protected IConfigurationHandler createConfigurationHandler() {
 		return new ConfigurationHandler(getPluginPrefixes());
 	}
-	
+
 	private List<String> getPluginPrefixes() {
 		return IOpenSourcePlugins.DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES;
 	}

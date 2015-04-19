@@ -28,30 +28,30 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 	public FeedbackConfigurationLogic(IConfigurationHandler configurationHandler) {
 		super(configurationHandler, getFeedbackConfigurationData(configurationHandler));
 	}
-	
+
 	@Override
 	public boolean isShowingDialogRequired() {
 		FeedbackPlugin plugin = FeedbackPlugin.getDefault();
 		if (plugin == null) {
 			return false;
 		}
-		
+
 		if (isFeedbackDialogReplaced()) {
 			return false;
 		}
-		
+
 		List<String> pluginPrefixes = IOpenSourcePlugins.DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES;
 		List<Bundle> bundlesSendingFeedback = new PluginFilter(pluginPrefixes).getMatchingBundles(plugin);
 		if (bundlesSendingFeedback.isEmpty()) {
 			return false;
 		}
-		
+
 		IConfigurationHandler configurationHandler = getConfigurationHandler();
 		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
-		
+
 		String key = IConfigurationConstants.KEY_SHOWED_OPEN_SOURCE_DIALOG;
 
-		// We must show the Open Source Feedback dialog if it was not shown 
+		// We must show the Open Source Feedback dialog if it was not shown
 		// before.
 		if (configuration != null) {
 			Boolean showedDailogBefore = configuration.getBooleanProperty(key);
@@ -61,7 +61,7 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 		} else {
 			configuration = new FeedbackConfiguration();
 		}
-		
+
 		// remember that we've show this dialog
 		configuration.getProperties().setProperty(key, Boolean.TRUE.toString());
 		configurationHandler.saveConfiguration(configuration);
@@ -72,10 +72,11 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 		if (!Platform.isRunning()) {
 			return false;
 		}
-		
+
 		// find dialog replacement deciders
 		IExtensionRegistry extensionRegistry = Platform.getExtensionRegistry();
-		IConfigurationElement configurationElements[] = extensionRegistry.getConfigurationElementsFor("de.devboost.eclipse.feedback.replacement");
+		IConfigurationElement configurationElements[] = extensionRegistry
+				.getConfigurationElementsFor("de.devboost.eclipse.feedback.replacement");
 		for (org.eclipse.core.runtime.IConfigurationElement element : configurationElements) {
 			try {
 				Object extension = element.createExecutableExtension("class");
@@ -89,15 +90,14 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 				FeedbackPlugin.logError("Exception while loading feedback replacement decider.", ce);
 			}
 		}
-		
+
 		// no replacement decider found or none of the deciders did replace the
 		// feedback dialog
 		return false;
 	}
 
-	private static FeedbackConfigurationData getFeedbackConfigurationData(
-			IConfigurationHandler configurationHandler) {
-		
+	private static FeedbackConfigurationData getFeedbackConfigurationData(IConfigurationHandler configurationHandler) {
+
 		FeedbackConfigurationData data = new FeedbackConfigurationData();
 
 		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
@@ -105,12 +105,12 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 			// no configuration found
 			return data;
 		}
-		
+
 		String email = configuration.getStringProperty(IConfigurationConstants.KEY_EMAIL);
 		Boolean register = configuration.getBooleanProperty(IConfigurationConstants.KEY_REGISTER_INSTALLATION);
 		Boolean sendEmail = configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_EMAIL);
 		Boolean sendErrors = configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_ERROR_REPORTS);
-		
+
 		data.setEmail(email);
 		data.setRegister(register);
 		data.setSendEmail(sendEmail);
@@ -131,10 +131,7 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 		updateConfiguration(email, data.isRegister(), data.isSendErrors());
 	}
 
-	private void updateConfiguration(
-			String email, 
-			Boolean register, 
-			Boolean sendErrors) {
+	private void updateConfiguration(String email, Boolean register, Boolean sendErrors) {
 
 		IConfigurationHandler configurationHandler = getConfigurationHandler();
 		FeedbackConfiguration configuration = configurationHandler.loadConfiguration();
@@ -142,24 +139,24 @@ public class FeedbackConfigurationLogic extends AbstractConfigurationLogic<Feedb
 			// no configuration found. create a new one.
 			configuration = new FeedbackConfiguration();
 		}
-		
 
 		UUID uuid = UUID.randomUUID();
-        String guid = uuid.toString();
-        
+		String guid = uuid.toString();
+
 		Properties properties = configuration.getProperties();
-        properties.put(IConfigurationConstants.KEY_EMAIL, email);
-        if (register != null) {
-            properties.put(IConfigurationConstants.KEY_REGISTER_INSTALLATION, Boolean.toString(register));
+		properties.put(IConfigurationConstants.KEY_EMAIL, email);
+		if (register != null) {
+			properties.put(IConfigurationConstants.KEY_REGISTER_INSTALLATION, Boolean.toString(register));
 		}
-        if (sendErrors != null) {
-            properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
+		if (sendErrors != null) {
+			properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(sendErrors));
 		}
-        properties.put(IConfigurationConstants.KEY_GUID, guid);
-        
+		properties.put(IConfigurationConstants.KEY_GUID, guid);
+
 		configurationHandler.saveConfiguration(configuration);
-		
-		Boolean isRegisterInstallation = configuration.getBooleanProperty(IConfigurationConstants.KEY_REGISTER_INSTALLATION);
+
+		Boolean isRegisterInstallation = configuration
+				.getBooleanProperty(IConfigurationConstants.KEY_REGISTER_INSTALLATION);
 		if (isRegisterInstallation != null && isRegisterInstallation) {
 			configurationHandler.sendConfigurationToServer(configuration);
 		}

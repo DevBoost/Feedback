@@ -23,14 +23,14 @@ import java.util.List;
 import java.util.Properties;
 
 /**
- * A {@link ConfigurationHandler} can be used to load and store configurations.
- * It can also send configuration data to the DevBoost server.
+ * A {@link ConfigurationHandler} can be used to load and store configurations. It can also send configuration data to
+ * the DevBoost server.
  */
 public class ConfigurationHandler implements IConfigurationHandler {
 
 	private List<String> pluginPrefixes;
 	private long lastConfigurationFileUpdate;
-	
+
 	public ConfigurationHandler(List<String> pluginPrefixes) {
 		super();
 		this.pluginPrefixes = pluginPrefixes;
@@ -41,12 +41,15 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		// register installation. we do not send all properties!
 		Properties properties = new Properties();
 		properties.put(FeedbackClient.KEY_FEEDBACK_TYPE, "registration");
-		properties.put(IConfigurationConstants.KEY_GUID, configuration.getStringProperty(IConfigurationConstants.KEY_GUID));
-		properties.put(IConfigurationConstants.KEY_EMAIL, configuration.getStringProperty(IConfigurationConstants.KEY_EMAIL));
-		properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS, Boolean.toString(configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_ERROR_REPORTS)));
-		
+		properties.put(IConfigurationConstants.KEY_GUID,
+				configuration.getStringProperty(IConfigurationConstants.KEY_GUID));
+		properties.put(IConfigurationConstants.KEY_EMAIL,
+				configuration.getStringProperty(IConfigurationConstants.KEY_EMAIL));
+		properties.put(IConfigurationConstants.KEY_SEND_ERROR_REPORTS,
+				Boolean.toString(configuration.getBooleanProperty(IConfigurationConstants.KEY_SEND_ERROR_REPORTS)));
+
 		new PropertyCreator(pluginPrefixes).addInstalledBundles(properties);
-		
+
 		new FeedbackClient().sendPropertiesToServer(properties);
 	}
 
@@ -58,7 +61,7 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		Properties properties = configuration.getProperties();
 		// refresh save date
 		properties.setProperty(IConfigurationConstants.KEY_DATE, Long.toString(new Date().getTime()));
-		
+
 		File file = getConfigFile();
 		try {
 			OutputStream outputStream = new FileOutputStream(file);
@@ -73,17 +76,17 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		File file = new File(userDir, IConfigurationConstants.CONFIG_FILE_NAME);
 		return file;
 	}
-	
+
 	public boolean hasConfigurationChanged() {
 		File file = getConfigFile();
 		if (!file.exists()) {
 			return true;
 		}
-		
+
 		if (lastConfigurationFileUpdate != file.lastModified()) {
 			return true;
 		}
-		
+
 		return false;
 	}
 
@@ -93,7 +96,7 @@ public class ConfigurationHandler implements IConfigurationHandler {
 		if (!file.exists()) {
 			return null;
 		}
-		
+
 		lastConfigurationFileUpdate = file.lastModified();
 
 		FileInputStream fileInputStream = null;

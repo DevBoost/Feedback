@@ -31,15 +31,15 @@ public abstract class AbstractWizardRunner {
 	public void run() {
 		display = new Display();
 		Shell shell = new Shell(display);
-	
+
 		shell.setLocation(200, 100);
 		shell.setSize(150, 200);
 		shell.open();
-	
+
 		List<String> pluginPrefixes = IOpenSourcePlugins.DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES;
 		IConfigurationWizardOpener helper = getWizardOpener(pluginPrefixes);
 		helper.showConfigurationWizardDialog(shell);
-		
+
 		while (!shell.isDisposed()) {
 			if (!display.readAndDispatch()) {
 				display.sleep();

@@ -21,13 +21,13 @@ import org.osgi.framework.Bundle;
 import org.osgi.framework.BundleContext;
 
 /**
- * A {@link PluginFilter} can be used to check whether a running Eclipse instance
- * contains plug-ins matching a given set of prefixes.
+ * A {@link PluginFilter} can be used to check whether a running Eclipse instance contains plug-ins matching a given set
+ * of prefixes.
  */
 public class PluginFilter {
-	
+
 	private List<String> pluginPrefixes;
-	
+
 	/**
 	 * Creates a plug-in filter that accepts plug-ins with the given prefixes.
 	 */

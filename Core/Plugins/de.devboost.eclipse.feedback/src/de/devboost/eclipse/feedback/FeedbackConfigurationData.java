@@ -14,30 +14,30 @@
 package de.devboost.eclipse.feedback;
 
 public class FeedbackConfigurationData extends AbstractConfigurationData {
-	
+
 	private String email;
 
 	// null indicates that this property was not set before
 	private Boolean register;
 	private Boolean sendErrors;
 	private Boolean sendEmail;
-	
+
 	public String getEmail() {
 		return email;
 	}
-	
+
 	public void setEmail(String email) {
 		this.email = email;
 	}
-	
+
 	public Boolean isRegister() {
 		return register;
 	}
-	
+
 	public void setRegister(Boolean register) {
 		this.register = register;
 	}
-	
+
 	public Boolean isSendErrors() {
 		return sendErrors;
 	}
@@ -45,7 +45,7 @@ public class FeedbackConfigurationData extends AbstractConfigurationData {
 	public void setSendErrors(Boolean sendErrors) {
 		this.sendErrors = sendErrors;
 	}
-	
+
 	public Boolean isSendEmail() {
 		return sendEmail;
 	}

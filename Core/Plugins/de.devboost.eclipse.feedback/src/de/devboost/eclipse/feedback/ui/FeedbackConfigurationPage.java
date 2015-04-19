@@ -47,11 +47,9 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		super(PAGE_TITLE, PAGE_TITLE_2, imageDescriptor);
 
 		// TODO Why are these two images created in a different way?
-		ImageData happyData = new ImageData(
-				FeedbackPlugin.class.getResourceAsStream("HappyGirl.jpg"));
+		ImageData happyData = new ImageData(FeedbackPlugin.class.getResourceAsStream("HappyGirl.jpg"));
 		happyImage = new Image(Display.getCurrent(), happyData);
-		sadImage = new Image(Display.getDefault(),
-				FeedbackPlugin.class.getResourceAsStream("SadBoy.jpg"));
+		sadImage = new Image(Display.getDefault(), FeedbackPlugin.class.getResourceAsStream("SadBoy.jpg"));
 	}
 
 	@Override
@@ -62,21 +60,17 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		panel.setLayout(gl);
 
 		Text messageText = new Text(panel, SWT.WRAP | SWT.MULTI | SWT.READ_ONLY);
-		messageText.setBackground(Display.getCurrent().getSystemColor(
-				SWT.COLOR_WIDGET_BACKGROUND));
-		messageText
-				.setText("Thanks a lot!\n\n"
-						+ "You're using Open-Source software provided by DevBoost.\n"
-						+ "We hope you find our tools useful, that we can increase your\n"
-						+ "productivity, and that you enjoy using our tools as much as\n"
-						+ "we do creating them. To help us to continuously improve\n"
-						+ "our tools, we kindly ask you to register this installation\n"
-						+ "and to enable error feedback reporting. If you want to keep\n"
-						+ "up to date with our latest progress you can also enter\n"
-						+ "your email address below.\n\n"
+		messageText.setBackground(Display.getCurrent().getSystemColor(SWT.COLOR_WIDGET_BACKGROUND));
+		messageText.setText("Thanks a lot!\n\n" + "You're using Open-Source software provided by DevBoost.\n"
+				+ "We hope you find our tools useful, that we can increase your\n"
+				+ "productivity, and that you enjoy using our tools as much as\n"
+				+ "we do creating them. To help us to continuously improve\n"
+				+ "our tools, we kindly ask you to register this installation\n"
+				+ "and to enable error feedback reporting. If you want to keep\n"
+				+ "up to date with our latest progress you can also enter\n" + "your email address below.\n\n"
 
-						+ "Of course, all this is optional. If you decide to cancel this\n"
-						+ "dialog, you won't be bothered again.\n\n" + "Enjoy.");
+				+ "Of course, all this is optional. If you decide to cancel this\n"
+				+ "dialog, you won't be bothered again.\n\n" + "Enjoy.");
 		GridData gd = new GridData();
 		gd.grabExcessVerticalSpace = true;
 		gd.heightHint = 300;
@@ -95,10 +89,8 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 
 		GridData gd;
 		registerInstallationButton = new Button(panel, SWT.CHECK);
-		registerInstallationButton
-				.setText("Send list of installed DevBoost tools");
-		registerInstallationButton
-				.setToolTipText("No further information is required.");
+		registerInstallationButton.setText("Send list of installed DevBoost tools");
+		registerInstallationButton.setToolTipText("No further information is required.");
 		registerInstallationButton.setSelection(true);
 		gd = new GridData();
 		gd.horizontalSpan = 2;
@@ -136,8 +128,7 @@ class FeedbackConfigurationPage extends WizardPage implements ICancelListener {
 		panel.setLayoutData(gd);
 		sendEmailButton = new Button(panel, SWT.CHECK);
 		sendEmailButton.setText("Send your email address:");
-		sendEmailButton
-				.setToolTipText("Your email address will be used to send you news on our tools.");
+		sendEmailButton.setToolTipText("Your email address will be used to send you news on our tools.");
 		sendEmailButton.setSelection(true);
 		gd = new GridData();
 		gd.horizontalIndent = 0;

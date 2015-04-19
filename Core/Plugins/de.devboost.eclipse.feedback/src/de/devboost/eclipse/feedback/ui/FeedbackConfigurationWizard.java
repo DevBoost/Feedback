@@ -21,18 +21,17 @@ import de.devboost.eclipse.feedback.FeedbackConfigurationLogic;
 import de.devboost.eclipse.feedback.FeedbackPlugin;
 import de.devboost.eclipse.feedback.util.ImageHelper;
 
-public class FeedbackConfigurationWizard extends AbstractConfigurationWizard 
-	implements ICancelListenable {
-	
+public class FeedbackConfigurationWizard extends AbstractConfigurationWizard implements ICancelListenable {
+
 	private static final String DEVBOOST_LOGO = "http://www.devboost.de/eclipse-feedback/logo/";
 
 	private FeedbackConfigurationPage page;
 	private FeedbackConfigurationLogic logic;
-	
+
 	public FeedbackConfigurationWizard(FeedbackConfigurationLogic logic) {
 		super();
 		setWindowTitle("Feedback configuration");
-		
+
 		ImageDescriptor devBoostLogo = null;
 		try {
 			devBoostLogo = new ImageHelper().getImage(DEVBOOST_LOGO);
@@ -54,12 +53,12 @@ public class FeedbackConfigurationWizard extends AbstractConfigurationWizard
 		String email = page.getEmailAddress();
 		boolean register = page.isRegisterInstallationSelected();
 		boolean sendErrors = page.isSendErrorReportsSelected();
-		
+
 		logic.getData().setSendEmail(page.isSendEmailSelected());
 		logic.getData().setEmail(email);
 		logic.getData().setRegister(register);
 		logic.getData().setSendErrors(sendErrors);
-		
+
 		logic.performFinish();
 		return true;
 	}

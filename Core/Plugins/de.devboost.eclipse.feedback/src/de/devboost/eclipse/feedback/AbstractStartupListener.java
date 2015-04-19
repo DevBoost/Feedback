@@ -31,20 +31,20 @@ import org.osgi.util.tracker.ServiceTracker;
 import de.devboost.eclipse.feedback.ui.IConfigurationWizardOpener;
 
 public abstract class AbstractStartupListener implements IStartup {
-	
+
 	public static class MutexRule implements ISchedulingRule {
-		
+
 		public boolean isConflicting(ISchedulingRule rule) {
 			return rule == this;
 		}
-		
+
 		public boolean contains(ISchedulingRule rule) {
 			return rule == this;
 		}
 	}
 
 	private final static MutexRule DIALOG_MUTEX = new MutexRule();
-	
+
 	private IConfigurationHandler configurationHandler;
 
 	public AbstractStartupListener() {
@@ -60,22 +60,21 @@ public abstract class AbstractStartupListener implements IStartup {
 		if (plugin == null) {
 			return;
 		}
-		
+
 		registerLogListener(plugin, pluginPrefixes);
 		showConfigurationDialogIfRequired();
 	}
 
 	/**
-	 * Checks whether the current user has configured his preferences yet. If
-	 * not, a respective dialog is shown. The concrete dialog is obtained using
-	 * template method {@link #getWizardOpener()}.
+	 * Checks whether the current user has configured his preferences yet. If not, a respective dialog is shown. The
+	 * concrete dialog is obtained using template method {@link #getWizardOpener()}.
 	 */
 	public void showConfigurationDialogIfRequired() {
-		// use a job to prevent Eclipse from opening multiple dialogs in 
+		// use a job to prevent Eclipse from opening multiple dialogs in
 		// parallel (use workspace root as scheduling rule)
 		final Display display = Display.getDefault();
 		UIJob job = new UIJob(display, "Show dialog") {
-			
+
 			@Override
 			public IStatus runInUIThread(IProgressMonitor monitor) {
 				boolean showDialog = getLogic().isShowingDialogRequired();
@@ -89,7 +88,7 @@ public abstract class AbstractStartupListener implements IStartup {
 				return Status.OK_STATUS;
 			}
 		};
-		
+
 		job.setRule(DIALOG_MUTEX);
 		job.schedule();
 	}
@@ -99,8 +98,7 @@ public abstract class AbstractStartupListener implements IStartup {
 	protected abstract IConfigurationHandler createConfigurationHandler();
 
 	/**
-	 * This is a template method that allows sub classes to open custom 
-	 * configuration wizard.
+	 * This is a template method that allows sub classes to open custom configuration wizard.
 	 */
 	protected abstract IConfigurationWizardOpener getWizardOpener();
 
@@ -108,9 +106,7 @@ public abstract class AbstractStartupListener implements IStartup {
 		Bundle bundle = plugin.getBundle();
 		BundleContext bundleContext = bundle.getBundleContext();
 		ServiceTracker<LogReaderService, Object> logReaderTracker = new ServiceTracker<LogReaderService, Object>(
-				bundleContext, 
-				LogReaderService.class.getName(), 
-				null);
+				bundleContext, LogReaderService.class.getName(), null);
 		logReaderTracker.open();
 		Object service = logReaderTracker.getService();
 		if (service != null && service instanceof LogReaderService) {

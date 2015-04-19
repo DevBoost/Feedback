@@ -19,14 +19,7 @@ import java.util.List;
 
 public interface IOpenSourcePlugins {
 
-	public final List<String> DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES = Collections.unmodifiableList(Arrays.asList(new String[] {
-		"de.devboost",
-		"org.emftext",
-		"org.dropsbox",
-		"org.reuseware",
-		"org.jamopp",
-		"org.junitloop",
-		"org.hibernate-dsl",
-		"org.buildboost",
-	}));
+	public final List<String> DEVBOOST_OPEN_SOURCE_PLUGIN_PREFIXES = Collections.unmodifiableList(Arrays
+			.asList(new String[] { "de.devboost", "org.emftext", "org.dropsbox", "org.reuseware", "org.jamopp",
+					"org.junitloop", "org.hibernate-dsl", "org.buildboost", }));
 }

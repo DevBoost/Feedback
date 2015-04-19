@@ -25,7 +25,7 @@ public class ExceptionHelper {
 		if (exception == null) {
 			return "";
 		}
-		
+
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		try {
 			exception.printStackTrace(new PrintStream(baos, true, UTF_8));

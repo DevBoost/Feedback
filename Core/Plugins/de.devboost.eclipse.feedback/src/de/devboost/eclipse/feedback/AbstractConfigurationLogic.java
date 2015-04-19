@@ -17,23 +17,24 @@ public abstract class AbstractConfigurationLogic<DataType extends AbstractConfig
 
 	private IConfigurationHandler configurationHandler;
 	private DataType data;
-	
-	public AbstractConfigurationLogic(IConfigurationHandler configurationHandler,
-		DataType data) {
+
+	public AbstractConfigurationLogic(IConfigurationHandler configurationHandler, DataType data) {
 		super();
 		this.configurationHandler = configurationHandler;
 		this.data = data;
 	}
-	
+
 	public IConfigurationHandler getConfigurationHandler() {
 		return configurationHandler;
 	}
-	
+
 	public DataType getData() {
 		return data;
 	}
 
 	public abstract void performFinish();
+
 	public abstract void performCancel();
+
 	public abstract boolean isShowingDialogRequired();
 }
