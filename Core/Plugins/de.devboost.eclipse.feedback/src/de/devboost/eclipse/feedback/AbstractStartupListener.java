@@ -105,9 +105,12 @@ public abstract class AbstractStartupListener implements IStartup {
 	private void registerLogListener(Plugin plugin, List<String> pluginPrefixes) {
 		Bundle bundle = plugin.getBundle();
 		BundleContext bundleContext = bundle.getBundleContext();
-		ServiceTracker<LogReaderService, Object> logReaderTracker = new ServiceTracker<LogReaderService, Object>(
-				bundleContext, LogReaderService.class.getName(), null);
+		// We must suppress these warnings, because we compile this code against multiple Eclipse versions and some of
+		// them contain a version of the ServiceTracker class without type parameters.
+		@SuppressWarnings({ "rawtypes", "unchecked" })
+		ServiceTracker logReaderTracker = new ServiceTracker(bundleContext, LogReaderService.class.getName(), null);
 		logReaderTracker.open();
+		
 		Object service = logReaderTracker.getService();
 		if (service != null && service instanceof LogReaderService) {
 			LogReaderService logReaderService = (LogReaderService) service;
