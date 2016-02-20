@@ -25,7 +25,7 @@ class FeedbackClient {
 
 	private static final String UTF_8 = "UTF-8";
 
-	private static final String FEEDBACK_URL = "http://www.devboost.de/eclipse-feedback/";
+	private static final String FEEDBACK_URL = "http://eclipse-feedback.devboost.de/eclipse-feedback/";
 
 	public static final String KEY_FEEDBACK_TYPE = "feedbacktype";
 
