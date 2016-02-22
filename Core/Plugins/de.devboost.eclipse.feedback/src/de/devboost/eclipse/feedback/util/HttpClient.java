@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (c) 2012-2015
+ * Copyright (c) 2012-2016
  * DevBoost GmbH, Dresden, Amtsgericht Dresden, HRB 34001
  *
  * All rights reserved. This program and the accompanying materials
