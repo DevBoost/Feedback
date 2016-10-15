@@ -1,7 +1,7 @@
 site/snapshot = false
 
 site/vendor = DevBoost GmbH
-site/uploadPath = www.devboost.de:/home/jenkins/eclipse-feedback/update_trunk
+site/uploadPath = www.devboost.de:/home/jenkins/public/eclipse-feedback/update_trunk
 site/usernameProperty = DEVBOOST_UPLOAD_USER
 site/passwordProperty = DEVBOOST_UPLOAD_PASS
 
